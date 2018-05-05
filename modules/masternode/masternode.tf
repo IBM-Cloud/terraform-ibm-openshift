@@ -65,5 +65,8 @@ output "master_private_ip" {
 
 output "master_hostname" {
   value = "${ibm_compute_vm_instance.masternode.hostname}.${ibm_compute_vm_instance.masternode.domain}"
+}
 
+output "master_host" {
+  value = "${ibm_compute_vm_instance.masternode.hostname}"
 }

@@ -73,3 +73,8 @@ output "infra_hostname" {
   value = "${ibm_compute_vm_instance.infranode.hostname}.${ibm_compute_vm_instance.infranode.domain}"
 
 }
+
+output "infra_host" {
+  value = "${ibm_compute_vm_instance.infranode.hostname}"
+
+}

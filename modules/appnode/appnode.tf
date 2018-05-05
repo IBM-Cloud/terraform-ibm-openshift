@@ -69,7 +69,8 @@ output "app_private_ip" {
 
 output "app_hostname" {
   value = "${ibm_compute_vm_instance.appnode.hostname}.${ibm_compute_vm_instance.appnode.domain}"
-
 }
 
-
+output "app_host" {
+  value = "${ibm_compute_vm_instance.appnode.hostname}"
+}
