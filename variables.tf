@@ -20,3 +20,7 @@ variable "ssh-label" {
 variable "vm-domain" {
   default = "ibm.com"
 }
+
+variable "ibm_sl_username"{}
+
+variable "ibm_sl_api_key"{}

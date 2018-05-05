@@ -9,13 +9,13 @@ module "storage_appnode" {
 # Create a vm for appnode
 
 resource "ibm_compute_vm_instance" "appnode" {
-  count                     = "${var.node_count}"
+  //count                     = "${var.node_count}"
   os_reference_code         = "${var.vm-os-reference-code}"
   hostname                  = "${var.vm-hostname}-${var.random_id}"
   domain                    = "${var.vm-domain}"
   datacenter                = "${var.datacenter}" 
   block_storage_ids         = ["${element(module.storage_appnode.appnodeblockid,count.index)}"]
-  private_network_only      = "true"
+  private_network_only      = "false"
   network_speed             = 100
   local_disk                = false
   flavor_key_name           = "${var.flavor_key_name}"
@@ -55,3 +55,21 @@ variable "vm-os-reference-code" {
 }
 
 variable "private_vlan_id" {}
+
+
+output "app_public_ip" {
+  value = "${ibm_compute_vm_instance.appnode.ipv4_address}"
+
+}
+
+output "app_private_ip" {
+  value = "${ibm_compute_vm_instance.appnode.ipv4_address_private}"
+
+}
+
+output "app_hostname" {
+  value = "${ibm_compute_vm_instance.appnode.hostname}.${ibm_compute_vm_instance.appnode.domain}"
+
+}
+
+
