@@ -11,7 +11,7 @@ resource "ibm_compute_vm_instance" "masternode" {
   domain                    = "${var.vm-domain}"
   datacenter                = "${var.datacenter}"
   block_storage_ids         = ["${module.storage_masternode.masterblockid}"]
-  private_network_only      = "true"
+  private_network_only      = "false"
   network_speed             = 100
   local_disk                = false
   flavor_key_name           = "${var.flavor_key_name}"
@@ -51,4 +51,19 @@ variable "private_vlan_id" {}
 
 output "master_ip_address_id" {
   value = "${ibm_compute_vm_instance.masternode.ip_address_id_private}"
+}
+
+output "master_public_ip" {
+  value = "${ibm_compute_vm_instance.masternode.ipv4_address}"
+
+}
+
+output "master_private_ip" {
+  value = "${ibm_compute_vm_instance.masternode.ipv4_address_private}"
+
+}
+
+output "master_hostname" {
+  value = "${ibm_compute_vm_instance.masternode.hostname}.${ibm_compute_vm_instance.masternode.domain}"
+
 }

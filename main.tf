@@ -1,6 +1,5 @@
 # openshift MAIN.tf
 # This file runs each of the modules
-#
 
 # Create a new ssh key 
 resource "ibm_compute_ssh_key" "ssh_key_openshift" {
@@ -20,7 +19,7 @@ module "network" {
 
 module "sg" {
   source = "modules/security_grp"
-  openshift_gateway_public_address = "${module.gateway.public_ip_address}"
+  //openshift_gateway_public_address = "${module.gateway.public_ip_address}"
   random_id = "${random_id.ose_name.hex}"
 }
 
@@ -83,7 +82,7 @@ module "bastion" {
 #####################################################
 # Create infra lbaas
 #####################################################
-module "lbaas_infra" {
+/*module "lbaas_infra" {
   source        = "modules/lbaas_infranode"
   datacenter    = "${var.datacenter}"
   node_count    = "${var.infra_count}"
@@ -111,4 +110,6 @@ module "gateway" {
   public_vlan_id  = "${module.network.openshift_public_vlan_id}"
   random_id = "${random_id.ose_name.hex}"
 }
+
+*/
 

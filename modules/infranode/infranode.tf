@@ -6,7 +6,7 @@ module "storage_infranode" {
 }
 
 resource "ibm_compute_vm_instance" "infranode" {
-  count                     = "${var.node_count}"
+//  count                     = "${var.node_count}"
   os_reference_code         = "${var.vm-os-reference-code}"
   hostname                  = "${var.vm-hostname}-${var.random_id}"
   domain                    = "${var.vm-domain}"
@@ -56,5 +56,20 @@ variable "private_vlan_id" {}
 variable "public_vlan_id" {}
 
 output "infra_ip_address_id" {
-  value = "${ibm_compute_vm_instance.infranode.*.ip_address_id_private}"
+ value = "${ibm_compute_vm_instance.infranode.ip_address_id_private}"
+}
+
+output "infra_public_ip" {
+  value = "${ibm_compute_vm_instance.infranode.ipv4_address}"
+
+}
+
+output "infra_private_ip" {
+  value = "${ibm_compute_vm_instance.infranode.ipv4_address_private}"
+
+}
+
+output "infra_hostname" {
+  value = "${ibm_compute_vm_instance.infranode.hostname}.${ibm_compute_vm_instance.infranode.domain}"
+
 }

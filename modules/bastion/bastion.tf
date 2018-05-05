@@ -52,3 +52,8 @@ variable "vm-os-reference-code" {
 variable "private_vlan_id" {}
 
 variable "public_vlan_id" {}
+
+output "bastion_ip_address" {
+  value = "${ibm_compute_vm_instance.bastion.ipv4_address}"
+}
+

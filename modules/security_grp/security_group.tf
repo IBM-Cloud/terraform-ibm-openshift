@@ -34,7 +34,6 @@ resource "ibm_security_group_rule" "openshift-master-ingress_rule1" {
   port_range_max    = "22"
   protocol          = "tcp"
   security_group_id = "${ibm_security_group.openshift-master.id}"
-  remote_ip         = "${ibm_security_group.openshift-bastion.id}"
 }
 
 resource "ibm_security_group_rule" "openshift-master-ingress_rule2" {
@@ -93,6 +92,7 @@ resource "ibm_security_group_rule" "openshift-master-ingress_rule8" {
   security_group_id = "${ibm_security_group.openshift-master.id}"
 }
 
+#Allow Inbound to nodeport to access the app deployed on openshift.
 resource "ibm_security_group_rule" "openshift-master-ingress_rule9" {
   direction         = "ingress"
   port_range_min    = "30000"
@@ -152,6 +152,7 @@ resource "ibm_security_group_rule" "openshift-node-ingress_rule5" {
   security_group_id = "${ibm_security_group.openshift-node.id}"
 }
 
+#Allow Inbound to nodeport to access the app deployed on openshift.
 resource "ibm_security_group_rule" "openshift-node-ingress_rule6" {
   direction         = "ingress"
   port_range_min    = "30000"
@@ -171,7 +172,7 @@ resource "ibm_security_group_rule" "openshift-node-egress_rule1" {
 #Variable
 variable "random_id" {}
 
-variable "openshift_gateway_public_address" {}
+//variable "openshift_gateway_public_address" {}
 
 variable "bastion_name" {
   default     = "ose_bastion_sg"
