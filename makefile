@@ -10,8 +10,16 @@ prepare-nodes:
 	ssh -A root@$$(terraform output bastion_public_ip) "ssh-keyscan -t rsa $$(terraform output master_private_ip)  >> ~/.ssh/known_hosts"
 	ssh -A root@$$(terraform output bastion_public_ip) "ssh-keyscan -t rsa $$(terraform output infra_private_ip)  >> ~/.ssh/known_hosts"
 	ssh -A root@$$(terraform output bastion_public_ip) "ssh-keyscan -t rsa $$(terraform output app_private_ip)  >> ~/.ssh/known_hosts"
+	#update the /etc/hosts file and copy to all nodes
+	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "echo $$(terraform output master_private_ip) $$(terraform output master_host) $$(terraform output master_hostname)>> /etc/hosts" 
+	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "echo $$(terraform output infra_private_ip) $$(terraform output infra_host) $$(terraform output infra_hostname)>> /etc/hosts"
+	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "echo $$(terraform output app_private_ip) $$(terraform output app_host) $$(terraform output app_hostname)>> /etc/hosts"
+	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "echo $$(terraform output bastion_public_ip) $$(terraform output bastion_hostname).$$(terraform output bastion_domain) $$(terraform output bastion_hostname)>> /etc/hosts"
+	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- /etc/hosts $$(terraform output master_private_ip) /etc/hosts" < scripts/copy_file_bastion_nodes.sh
+	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s --  /etc/hosts $$(terraform output infra_private_ip) /etc/hosts" < scripts/copy_file_bastion_nodes.sh
+	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- /etc/hosts $$(terraform output app_private_ip) /etc/hosts" < scripts/copy_file_bastion_nodes.sh
 	#Prepare the master and nodes for the openshift install
-	chmod 755 update_repo.sh
+	chmod 755 scripts/update_bastion_address.sh
 	sh scripts/update_bastion_address.sh $$(terraform output bastion_public_ip) scripts/ose.repo
 	sh scripts/update_bastion_address.sh $$(terraform output bastion_public_ip) scripts/update_nodes.sh
 	scp scripts/ose.repo root@$$(terraform output bastion_public_ip):~
@@ -31,12 +39,3 @@ prepare-nodes:
 	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- $$(terraform output master_private_ip) update_nodes.sh" < scripts/remote_exe.sh
 	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- $$(terraform output infra_private_ip) update_nodes.sh" < scripts/remote_exe.sh
 	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- $$(terraform output app_private_ip) update_nodes.sh" < scripts/remote_exe.sh
-
-	#update the /etc/hosts file and copy to all nodes
-	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "echo $$(terraform output master_private_ip) $$(terraform output master_host) $$(terraform output master_hostname)>> /etc/hosts" 
-	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "echo $$(terraform output infra_private_ip) $$(terraform output infra_host) $$(terraform output infra_hostname)>> /etc/hosts"
-	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "echo $$(terraform output app_private_ip) $$(terraform output app_host) $$(terraform output app_hostname)>> /etc/hosts"
-	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "echo $$(terraform output bastion_public_ip) $$(terraform output bastion_hostname).$$(terraform output bastion_domain) $$(terraform output bastion_hostname)>> /etc/hosts"
-	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- /etc/hosts $$(terraform output master_private_ip) /etc/hosts" < scripts/copy_file_bastion_nodes.sh
-	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s --  /etc/hosts $$(terraform output infra_private_ip) /etc/hosts" < scripts/copy_file_bastion_nodes.sh
-	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- /etc/hosts $$(terraform output app_private_ip) /etc/hosts" < scripts/copy_file_bastion_nodes.sh

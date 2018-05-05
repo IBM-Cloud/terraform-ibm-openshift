@@ -1,5 +1,5 @@
 #!/bin/sh
-echo "Execute the pre-install steps"
+echo "Executing the pre-install steps"
 yum -y update
 yum install -y wget vim-enhanced net-tools bind-utils tmux git iptables-services bridge-utils
 systemctl start docker
