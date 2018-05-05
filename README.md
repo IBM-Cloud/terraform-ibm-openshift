@@ -5,9 +5,13 @@ Use this project to set up Red Hat® OpenShift Container Platform 3 on IBM Cloud
 ## Overview
 Deployment of 'OpenShift Container Platform on IBM Cloud' is divided into separate phases.
 	
-* Phase 1: Provision the infrastructure on IBM Cloud	Use Terraform to provision the compute, storage, network & IAM resources on IBM Cloud Infrastructure
-* Phase 2: Deploy OpenShift Container Platform on IBM Cloud	Install OpenShift Container Platform which is done via Ansible playbooks - available in the https://github.com/openshift/openshift-ansible project. 
+* Phase 1: Provision the infrastructure on IBM Cloud	
+  Use Terraform to provision the compute, storage, network & IAM resources on IBM Cloud Infrastructure
+  
+* Phase 2: Deploy OpenShift Container Platform on IBM Cloud	
+  Install OpenShift Container Platform which is done via Ansible playbooks - available in the https://github.com/openshift/openshift-ansible project. 
   During this phase the router and registry are deployed.
+  
 * Phase 3: Post deployment activities	Validate the deployment
 
 The following figure illustrates the deployment architecture for the 'OpenShift Container Platform on IBM Cloud'.
@@ -104,4 +108,10 @@ To open a browser to admin console, use the following credentials to login:
 
 # References
 
+* https://github.com/dwmkerr/terraform-aws-openshift - Used as reference to create this project
+  
+* https://github.com/ibm-cloud/terraform-provider-ibm - Terraform Provider for IBM Cloud  
+  
+* [Deploying OpenShift Container Platform 3.6](https://docs.openshift.com/container-platform/3.6/install_config/install/quick_install.html)
 \[Work in Progress\]
+
