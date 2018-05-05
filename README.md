@@ -16,7 +16,8 @@ Deployment of 'OpenShift Container Platform on IBM Cloud' is divided into separa
   Validate the deployment
 
 The following figure illustrates the deployment architecture for the 'OpenShift Container Platform on IBM Cloud'.
-[TODO: Attach figure]
+
+![Infrastructure Diagram](https://github.com/IBMTerraform/terraform-ibm-openshift/blob/master/docs/infra-diagram.png)
 
 ## Prerequisite
 
