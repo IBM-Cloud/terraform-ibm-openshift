@@ -86,7 +86,7 @@ To install OpenShift on the cluster, just run:
    $ make rhn_username=<rhn_username> rhn_password=<rhn_password> openshift
    ```
 
-Provide the redhat username and password with openshift subscription.
+Where, the rhn_username and rhn_password are the username & password of the Red Hat® Network subscription.
 
 This step includes the following: 
 * Register the Bastion node to the Red Hat® Network, 
