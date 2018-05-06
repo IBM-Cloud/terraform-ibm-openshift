@@ -22,7 +22,9 @@ openshift:
 	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "echo $$(terraform output master_private_ip) $$(terraform output master_host) $$(terraform output master_hostname)>> /etc/hosts" 
 	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "echo $$(terraform output infra_private_ip) $$(terraform output infra_host) $$(terraform output infra_hostname)>> /etc/hosts"
 	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "echo $$(terraform output app_private_ip) $$(terraform output app_host) $$(terraform output app_hostname)>> /etc/hosts"
-	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "echo $$(terraform output bastion_public_ip) $$(terraform output bastion_hostname).$$(terraform output bastion_domain) $$(terraform output bastion_hostname)>> /etc/hosts"
+	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "echo $$(terraform output master_public_ip) $$(terraform output master_host) $$(terraform output master_hostname)>> /etc/hosts" 
+	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "echo $$(terraform output infra_public_ip) $$(terraform output infra_host) $$(terraform output infra_hostname)>> /etc/hosts"
+	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "echo $$(terraform output app_public_ip) $$(terraform output app_host) $$(terraform output app_hostname)>> /etc/hosts"
 	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- /etc/hosts $$(terraform output master_private_ip) /etc/hosts" < scripts/copy_file_bastion_nodes.sh
 	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s --  /etc/hosts $$(terraform output infra_private_ip) /etc/hosts" < scripts/copy_file_bastion_nodes.sh
 	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- /etc/hosts $$(terraform output app_private_ip) /etc/hosts" < scripts/copy_file_bastion_nodes.sh
