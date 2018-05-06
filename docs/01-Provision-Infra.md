@@ -71,7 +71,7 @@ Nodes are VM_instances that serve a specific purpose for OpenShift Container Pla
 
 |nodes | flavor | details | count |
 |------|--------|---------|-------|
-|Master Node | B1_4X8X100 | san disks: 100GB <ul><li> disk1 : 50 </li><li> disk2 : 25 </li><li>disk3 : 25 </li><ul> | 1 |
+|Master Node | B1_4X8X100 | san disks: 100GB <ul><li> disk1 : 50 </li><li> disk2 : 25 </li><li>disk3 : 25 </li><ul> | master_count |
 | Infra Nodes | B1_2X4X100 | san disks: 100GB <ul><li> disk1 : 50 </li><li> disk2 : 25 </li><li>disk3 : 25 </li><ul> | infra_count | 
 | App Nodes | B1_2X4X100 | san disks: 100GB <ul><li> disk1 : 50 </li><li> disk2 : 25 </li><li>disk3 : 25 </li><ul> | app_count |
 | Bastion Nodes | B1_2X2X100 | <ul><li>disk : 100GB </li><li>disk : 50GB </li><ul> | 1 |
