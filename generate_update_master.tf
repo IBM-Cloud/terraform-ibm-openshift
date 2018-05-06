@@ -7,6 +7,6 @@ data "template_file" "ose_master_config" {
 
 //  Create the config file used for openshoft installation
 resource "local_file" "ose_master_config_file" {
-  content     = "${data.template_file.ose_nodes_config.rendered}"
+  content     = "${data.template_file.ose_master_config.rendered}"
   filename = "${path.cwd}/scripts/update_master.sh"
 }
