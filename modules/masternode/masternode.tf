@@ -18,7 +18,9 @@ resource "ibm_compute_vm_instance" "masternode" {
   disks                     = [50, 25, 25]
   ssh_key_ids               = ["${var.ssh_key_id}"]
   private_vlan_id           = "${var.private_vlan_id}"
+  public_vlan_id           = "${var.public_vlan_id}"
   public_security_group_ids = ["${var.openshift-sg-master}"]
+  private_security_group_ids = ["${var.openshift-sg-master}"]
 }
 
 
@@ -46,6 +48,8 @@ variable "flavor_key_name" {
 variable "vm-os-reference-code" {
   default = "REDHAT_7_64"
 }
+
+variable "public_vlan_id" {}
 
 variable "private_vlan_id" {}
 

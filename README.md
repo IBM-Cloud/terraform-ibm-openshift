@@ -24,7 +24,17 @@ The following figure illustrates the deployment architecture for the 'OpenShift 
 ## Prerequisite
 
 * Docker image for the [Terraform & IBM Cloud Provider](https://github.com/ibm-cloud/terraform-provider-ibm#docker-image-for-the-provider) 
+
+Get the latest ibmcloud terraform provider image using the following command:
+    
+    ``` console
+    # Pull the docker image
+    $ docker pull ibmterraform/terraform-provider-ibm-docker
+    ```
+
 * IBM Cloud account (used to provision resources on IBM Cloud Infrastructure or SoftLayer)
+
+* Private key required for do ssh in the machines.
 
 
 ## 1. Provison the IBM Cloud Infrastrcture for Red Hat® OpenShift
@@ -35,6 +45,7 @@ The following figure illustrates the deployment architecture for the 'OpenShift 
    # Create the infrastructure.
    $ make infrastructure
    ```
+* You will be asked to provide softlayer username , password and ssh public key. 
 In this version, the following infrastructure elements are provisioned for OpenShift (as illustrated in the picture)
 * Bastion node 
 * Master node 
@@ -46,15 +57,17 @@ On successful completion, you will see the following message
    ```
    ...
 
-   Apply complete! Resources: 20 added, 0 changed, 0 destroyed.
+   Apply complete! Resources: 40 added, 0 changed, 0 destroyed.
    ```
 
 ## 2. Deploy OpenShift Container Platform on IBM Cloud Infrastrcture
 
 To install OpenShift on the cluster, just run:
    ``` console
-   $ make openshift
+   $ make rhn_username=<rhn_username> rhn_password=<rhn_password> openshift
    ```
+
+Provide the redhat username and password with openshift subscription.
 
 This step includes the following: 
 * Register the Bastion node to the Red Hat® Network, 

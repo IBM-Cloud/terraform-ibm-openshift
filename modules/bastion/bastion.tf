@@ -8,7 +8,7 @@ resource "ibm_compute_vm_instance" "bastion" {
   domain                    = "${var.vm-domain}"
   datacenter                = "${var.datacenter}"
   private_network_only      = "false"
-  network_speed             = 10
+  network_speed             = 100
   cores                     = 2
   memory                    = 4096
   local_disk                = true

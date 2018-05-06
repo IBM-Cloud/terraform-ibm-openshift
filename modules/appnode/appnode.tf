@@ -23,7 +23,9 @@ resource "ibm_compute_vm_instance" "appnode" {
   ssh_key_ids               = ["${var.ssh_key_id}"]
   local_disk                = false
   private_vlan_id           = "${var.private_vlan_id}"
+  public_vlan_id           = "${var.public_vlan_id}"
   public_security_group_ids = ["${var.openshift-sg-node}"]
+  private_security_group_ids = ["${var.openshift-sg-node}"]
 }
 
 
@@ -70,6 +72,8 @@ output "app_private_ip" {
 output "app_hostname" {
   value = "${ibm_compute_vm_instance.appnode.hostname}.${ibm_compute_vm_instance.appnode.domain}"
 }
+
+variable "public_vlan_id" {}
 
 output "app_host" {
   value = "${ibm_compute_vm_instance.appnode.hostname}"

@@ -22,6 +22,7 @@ resource "ibm_compute_vm_instance" "infranode" {
   private_vlan_id           = "${var.private_vlan_id}"
   public_vlan_id           = "${var.public_vlan_id}"
   public_security_group_ids = ["${var.openshift-sg-infra}"]
+  private_security_group_ids = ["${var.openshift-sg-infra}"]
 }
 
 

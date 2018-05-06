@@ -29,6 +29,7 @@ module "sg" {
 module "masternode" {
   source                   = "modules/masternode"
   private_vlan_id          = "${module.network.openshift_private_vlan_id}"
+  public_vlan_id          = "${module.network.openshift_public_vlan_id}"
   datacenter               = "${var.datacenter}"
   openshift-sg-master      = "${module.sg.openshift_master_id}"
   ssh_key_id               = "${ibm_compute_ssh_key.ssh_key_openshift.id}"
@@ -57,6 +58,7 @@ module "infranode" {
 module "appnode" {
   source                   = "modules/appnode"
   private_vlan_id          = "${module.network.openshift_private_vlan_id}"
+  public_vlan_id          = "${module.network.openshift_public_vlan_id}"
   datacenter               = "${var.datacenter}"
   node_count               = "${var.app_count}"
   openshift-sg-node        = "${module.sg.openshift_node_id}"
