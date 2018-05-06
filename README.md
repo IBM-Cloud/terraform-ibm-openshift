@@ -25,16 +25,34 @@ The following figure illustrates the deployment architecture for the 'OpenShift 
 
 * Docker image for the [Terraform & IBM Cloud Provider](https://github.com/ibm-cloud/terraform-provider-ibm#docker-image-for-the-provider) 
 
-Get the latest ibmcloud terraform provider image using the following command:
+
+
+* IBM Cloud account (used to provision resources on IBM Cloud Infrastructure or SoftLayer)
+
+## Steps to execute the project inside a docker image
+
+* Get the latest ibmcloud terraform provider image using the following command:
     
     ``` console
     # Pull the docker image
     $ docker pull ibmterraform/terraform-provider-ibm-docker
     ```
+* Bring up the container using the docker image
 
-* IBM Cloud account (used to provision resources on IBM Cloud Infrastructure or SoftLayer)
+    ``` console
+    # Run the container
+    $ docker run -it ibmterraform/terraform-provider-ibm-docker:latest
+    ```
 
-* Private key required for do ssh in the machines.
+* Clone the repo [IBM Terraform Openshift](https://github.com/IBMTerraform/terraform-ibm-openshift) 
+
+    ``` console
+    # Clone the repo
+    $ git clone https://github.com/IBMTerraform/terraform-ibm-openshift.git
+    $ cd terraform-ibm-openshift/
+    ```
+
+* Private key is required to do ssh to the machines.(Put the private key inside ~/.ssh/id_rsa)
 
 
 ## 1. Provison the IBM Cloud Infrastrcture for Red Hat® OpenShift
@@ -45,7 +63,8 @@ Get the latest ibmcloud terraform provider image using the following command:
    # Create the infrastructure.
    $ make infrastructure
    ```
-* You will be asked to provide softlayer username , password and ssh public key. 
+Please provide softlayer username , password and ssh public key to proceed.
+
 In this version, the following infrastructure elements are provisioned for OpenShift (as illustrated in the picture)
 * Bastion node 
 * Master node 

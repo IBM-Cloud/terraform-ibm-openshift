@@ -81,10 +81,12 @@ module "bastion" {
   random_id = "${random_id.ose_name.hex}"
 }
 
+# Use load balancer & gateway, for a scalable architecture
+/*
 #####################################################
 # Create infra lbaas
 #####################################################
-/*module "lbaas_infra" {
+module "lbaas_infra" {
   source        = "modules/lbaas_infranode"
   datacenter    = "${var.datacenter}"
   node_count    = "${var.infra_count}"
