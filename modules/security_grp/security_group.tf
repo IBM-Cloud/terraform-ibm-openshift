@@ -125,6 +125,14 @@ resource "ibm_security_group_rule" "openshift-master-ingress_rule10" {
   security_group_id = "${ibm_security_group.openshift-master.id}"
 }
 
+resource "ibm_security_group_rule" "openshift-master-ingress_rule11" {
+  direction         = "ingress"
+  port_range_min    = "8443"
+  port_range_max    = "8443"
+  protocol          = "tcp"
+  security_group_id = "${ibm_security_group.openshift-master.id}"
+}
+
 resource "ibm_security_group_rule" "openshift-master-egress_rule1" {
   direction         = "egress"
   security_group_id = "${ibm_security_group.openshift-master.id}"
@@ -181,6 +189,14 @@ resource "ibm_security_group_rule" "openshift-node-ingress_rule6" {
   direction         = "ingress"
   port_range_min    = "30000"
   port_range_max    = "32767"
+  protocol          = "tcp"
+  security_group_id = "${ibm_security_group.openshift-node.id}"
+}
+
+resource "ibm_security_group_rule" "openshift-node-ingress_rule7" {
+  direction         = "ingress"
+  port_range_min    = "8443"
+  port_range_max    = "8443"
   protocol          = "tcp"
   security_group_id = "${ibm_security_group.openshift-node.id}"
 }

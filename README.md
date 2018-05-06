@@ -58,7 +58,8 @@ The following figure illustrates the deployment architecture for the 'OpenShift 
 ## 1. Provison the IBM Cloud Infrastrcture for Red Hat® OpenShift
 
 1. Review and update the variables.tf file 
-1. Provision the infrastructure using the following command
+
+2. Provision the infrastructure using the following command
    ``` console
    # Create the infrastructure.
    $ make infrastructure
@@ -79,18 +80,27 @@ On successful completion, you will see the following message
    Apply complete! Resources: 40 added, 0 changed, 0 destroyed.
    ```
 
-## 2. Deploy OpenShift Container Platform on IBM Cloud Infrastrcture
+## 2. Setup REDHAT Repositories and images for the disconnected installation
 
-To install OpenShift on the cluster, just run:
-   ``` console
-   $ make rhn_username=<rhn_username> rhn_password=<rhn_password> openshift
-   ```
+Install the repos and images by running :
 
+  ``` console
+    $ make rhn_username=<rhn_username> rhn_password=<rhn_password> bastion
+  ```
 Where, the rhn_username and rhn_password are the username & password of the Red Hat® Network subscription.
 
 This step includes the following: 
-* Register the Bastion node to the Red Hat® Network, 
-* Prepare the Bastion node as the local repository (with rpms & container images), to install OpenShift in the rest of the nodes
+ * Register the Bastion node to the Red Hat® Network, 
+ * Prepare the Bastion node as the local repository (with rpms & container images), to install OpenShift in the rest of the nodes
+
+## 3. Deploy OpenShift Container Platform on IBM Cloud Infrastrcture
+
+To install OpenShift on the cluster, just run:
+   ``` console
+   $ make openshift
+   ```
+
+This step includes the following: 
 * Prepare the Master, Infra & App nodes before installing OpenShift
 * Finally, install OpenShift Container Platform v3.6 using the disconnected & quick installation procedure described [here]( https://docs.openshift.com/container-platform/3.6/install_config/install/disconnected_install.html). 
 
@@ -98,32 +108,68 @@ This step includes the following:
 Once the setup is complete, just run:
 
    ``` console
-   $ make browse-openshift
+   $ open https://$(terraform output master_private_ip):8443/console
    ```
 
 To open a browser to admin console, use the following credentials to login:
    ``` console
    Username: admin
-   Password: 123
+   Password: test123
    ```
 
-## 3: Post deployment activities
+## Work with OpenShift
 
-At the end of the above disconnected & quick OpenShift deployment
+* Login to the master node
 
-1. Authentication is set to `Deny All`, by default; follow the procedure outlined [here](https://docs.openshift.com/container-platform/3.6/install_config/configuring_authentication.html#install-config-configuring-authentication) to create users and provide Administrator access.  
-1. Docker register is automatically deployed; follow the procedure [here](https://docs.openshift.com/container-platform/3.6/install_config/registry/index.html#install-config-registry-overview) to configure the Registry. 
-1. Router is automatically deployed; follow the procedure [here](https://docs.openshift.com/container-platform/3.6/install_config/router/index.html#install-config-router-overview) to configure the Router.
+  ``` console
+   $ ssh -t -A root@$(terraform output bastion_public_ip) ssh root@$(terraform output master_private_ip)
+  ```
+Default project is in use and the core infrastructure components (router etc) are available.
 
+* Login to openshift client by running
 
-### Work with OpenShift
+  ``` console
+    $ oc login https://$(terraform output master_private_ip):8443
+  ```
+Provide username as admin and password as test123 to login to the opeshift client.
 
-\[Work in Progress\]
+* Create new project
+
+  ``` console
+   $ oc new-project test
+
+  ```
+
+* Deploy the app 
+
+  ``` console
+   $ oc new-app --name=nginx --docker-image=bitnami/nginx
+
+  ```
+* Expose the service 
+
+  ``` console
+   $ oc expose svc/nginx
+
+  ```
+* Edit the service to use nodePort by changing type as NodePort
+
+  ``` console
+   $ oc edit svc/nginx
+
+  ```
+Access the deployed application at http${nodeIP}:${nodePort}
+
 
 ## Destroy the OpenShift cluster
 
-\[Work in Progress\]
+Bring down the openshift cluster by running following
 
+  ``` console
+   $ terraform destroy
+
+  ```
+  
 ## Troubleshooting
 
 \[Work in Progress\]
@@ -136,5 +182,9 @@ At the end of the above disconnected & quick OpenShift deployment
   
 * [Deploying OpenShift Container Platform 3.6](https://docs.openshift.com/container-platform/3.6/install_config/install/quick_install.html)
 
-\[Work in Progress\]
+* [To create more users and provide admin priviledge](https://docs.openshift.com/container-platform/3.6/install_config/configuring_authentication.html#install-config-configuring-authentication)
+
+* [Accessing openshift registry](https://docs.openshift.com/container-platform/3.6/install_config/configuring_authentication.html#install-config-configuring-authentication)
+
+* [Refer Openshift Router](https://docs.openshift.com/container-platform/3.6/install_config/router/index.html#install-config-router-overview)
 

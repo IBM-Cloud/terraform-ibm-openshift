@@ -2,15 +2,18 @@ infrastructure:
 	# Get the modules, create the infrastructure.
 	terraform init && terraform get && terraform apply
 
-openshift:
+bastion:
+
 	# Register the System with redhat
 	ssh root@$$(terraform output bastion_public_ip) 'bash -s' < ./scripts/rhn_register.sh $(rhn_username) $(rhn_password)
 	
 	# Install all the rpms and docker images required by the openshift
 	cat ./scripts/setup_bastion_http.sh | ssh -o StrictHostKeyChecking=no -A root@$$(terraform output bastion_public_ip)
 	
+openshift:
+	
 	# Prepare the master , infra and app nodes
-	@read -p "Enter path to private key file to communicate with bastion machines:" file_path; \
+	@read -p "Enter path to private key file for bastion to  ssh to nodes:" file_path; \
 	scp $$file_path root@$$(terraform output bastion_public_ip):~/.ssh/id_rsa
 	# Add our identity for ssh, add the host key to avoid having to accept the
 	# the host key manually. Also add the identity of each node to the bastion.
@@ -34,8 +37,10 @@ openshift:
 	scp scripts/update_nodes.sh root@$$(terraform output bastion_public_ip):~
 	scp scripts/update_master.sh root@$$(terraform output bastion_public_ip):~
 	scp scripts/disable_subscription.sh root@$$(terraform output bastion_public_ip):~
-	
-	#Disable suscription on nodes
+	scp scripts/post_install_master.sh root@$$(terraform output bastion_public_ip):~
+	scp scripts/post_install_node.sh root@$$(terraform output bastion_public_ip):~
+
+	#Disable subscription on nodes
 	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- $$(terraform output master_private_ip) disable_subscription.sh" < scripts/remote_exe.sh
 	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- $$(terraform output infra_private_ip) disable_subscription.sh" < scripts/remote_exe.sh
 	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- $$(terraform output app_private_ip) disable_subscription.sh" < scripts/remote_exe.sh
@@ -60,3 +65,10 @@ openshift:
 	# Install openshift
 	scp ./template/installer.cfg.yml root@$$(terraform output bastion_public_ip):/root/.config/openshift/
 	ssh root@$$(terraform output bastion_public_ip) 'atomic-openshift-installer -u -c /root/.config/openshift/installer.cfg.yml install'
+
+	# Execute the post install script on master
+	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- $$(terraform output master_private_ip) post_install_master.sh" < scripts/remote_exe.sh
+
+	# Execute the post install script on nodes
+    ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- $$(terraform output infra_private_ip) post_install_node.sh" < scripts/remote_exe.sh
+    ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- $$(terraform output app_private_ip) post_install_node.sh" < scripts/remote_exe.sh
