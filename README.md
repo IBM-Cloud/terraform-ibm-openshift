@@ -60,7 +60,7 @@ This step includes the following:
 * Register the Bastion node to the Red Hat® Network, 
 * Prepare the Bastion node as the local repository (with rpms & container images), to install OpenShift in the rest of the nodes
 * Prepare the Master, Infra & App nodes before installing OpenShift
-* Finally, install OpenShift Container Platform v3.6 using the disconnected installation procedure described [here]( https://docs.openshift.com/container-platform/3.6/install_config/install/disconnected_install.html). 
+* Finally, install OpenShift Container Platform v3.6 using the disconnected & quick installation procedure described [here]( https://docs.openshift.com/container-platform/3.6/install_config/install/disconnected_install.html). 
 
 
 Once the setup is complete, just run:
@@ -77,7 +77,12 @@ To open a browser to admin console, use the following credentials to login:
 
 ## 3: Post deployment activities
 
-\[Work in Progress\]
+At the end of the above disconnected & quick OpenShift deployment
+
+1. Authentication is set to `Deny All`, by default; follow the procedure outlined [here](https://docs.openshift.com/container-platform/3.6/install_config/configuring_authentication.html#install-config-configuring-authentication) to create users and provide Administrator access.  
+1. Docker register is automatically deployed; follow the procedure [here](https://docs.openshift.com/container-platform/3.6/install_config/registry/index.html#install-config-registry-overview) to configure the Registry. 
+1. Router is automatically deployed; follow the procedure [here](https://docs.openshift.com/container-platform/3.6/install_config/router/index.html#install-config-router-overview) to configure the Router.
+
 
 ### Work with OpenShift
 
