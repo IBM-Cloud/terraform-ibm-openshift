@@ -117,7 +117,7 @@ Once the setup is complete, just run:
    ``` console
    $ open https://$(terraform output master_private_ip):8443/console
    ```
-This figure illustrates the Red Hat Openshift Console
+This figure illustrates the 'Red Hat Openshift Console'
 
 ![Openshift Console](https://github.com/IBMTerraform/terraform-ibm-openshift/blob/master/docs/ose-console.png)
 
