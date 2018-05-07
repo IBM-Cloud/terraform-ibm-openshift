@@ -15,6 +15,8 @@ resource "random_id" "ose_name" {
 module "network" {
   source     = "modules/network"
   datacenter = "${var.datacenter}"
+  public_router = "${var.public_router}"
+  private_router = "${var.private_router}"
 }
 
 module "sg" {

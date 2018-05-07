@@ -25,15 +25,11 @@ resource "ibm_network_vlan" "openshift_vlan_public" {
 
 variable "datacenter" {}
 
-variable "public_router" {
-  default     = "fcr01a.dal05"
-  description = "the router to use for the public VLAN."
-}
+variable "public_router" {}
+ 
 
-variable "private_router" {
-  default     = "bcr01a.dal05"
-  description = "the router to use for the private VLAN."
-}
+variable "private_router" {}
+
 
 ##################################################
 # outputs
