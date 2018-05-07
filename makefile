@@ -63,12 +63,12 @@ openshift:
 	ssh -o StrictHostKeyChecking=no -A root@$$(terraform output bastion_public_ip) 'mkdir -p /root/.config/openshift/'
 	
 	# Install openshift
-	scp ./template/installer.cfg.yml root@$$(terraform output bastion_public_ip):/root/.config/openshift/
+	scp ./templates/installer.cfg.yml root@$$(terraform output bastion_public_ip):/root/.config/openshift/
 	ssh root@$$(terraform output bastion_public_ip) 'atomic-openshift-installer -u -c /root/.config/openshift/installer.cfg.yml install'
 
 	# Execute the post install script on master
 	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- $$(terraform output master_private_ip) post_install_master.sh" < scripts/remote_exe.sh
 
 	# Execute the post install script on nodes
-    	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- $$(terraform output infra_private_ip) post_install_node.sh" < scripts/remote_exe.sh
-    	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- $$(terraform output app_private_ip) post_install_node.sh" < scripts/remote_exe.sh
+	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- $$(terraform output infra_private_ip) post_install_node.sh" < scripts/remote_exe.sh
+	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- $$(terraform output app_private_ip) post_install_node.sh" < scripts/remote_exe.sh
