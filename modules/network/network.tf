@@ -1,7 +1,7 @@
 #  MODULE 1 - Networks
 # This is the network module used when you must provision the networks in your architecture
 #this is the "vlan module" and all outputs are defined as ${module.vlan."reosurceid"."outputproperty"}
-provider "ibm" {}
+
 
 resource "ibm_network_vlan" "openshift_vlan_private" {
   name            = "openshift-prv-vlan"

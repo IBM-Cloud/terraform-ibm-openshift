@@ -1,5 +1,3 @@
-provider "ibm" {}
-
 # Create a vm for bastion
 
 resource "ibm_compute_vm_instance" "bastion" {

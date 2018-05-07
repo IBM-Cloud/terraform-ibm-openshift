@@ -2,8 +2,6 @@
 # Used to create the local IBM load balancer for the VMs in the master
 #
 
-provider ibm {}
-
 ##############################################################################
 # Create a local loadbalancer
 ##############################################################################

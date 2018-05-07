@@ -3,7 +3,8 @@
 # file storage for infra nodes
 # block storage for master and app tiers
 
-provider "ibm" {}
+
+
 
 #################################################
 # Block Storage

@@ -1,5 +1,3 @@
-provider ibm {}
-
 # Create the gateway with single member
 
 resource "ibm_network_gateway" "openshift-gateway" {

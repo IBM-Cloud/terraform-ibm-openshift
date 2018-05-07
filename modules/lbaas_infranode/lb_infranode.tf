@@ -1,9 +1,6 @@
 # LB.tf
 # Used to create the local IBM load balancer for the VMs in the infra
 #
-
-provider ibm {}
-
 ##############################################################################
 # Create a local loadbalancer
 ##############################################################################

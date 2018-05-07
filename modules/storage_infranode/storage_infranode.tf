@@ -3,7 +3,7 @@
 # file storage for infra nodes
 # block storage for master and app nodes
 
-provider "ibm" {}
+
 
 #################################################
 # File Storage

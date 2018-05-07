@@ -1,5 +1,3 @@
-provider "ibm" {}
-
 module "storage_appnode" {
   source     = "../storage_appnode"
   datacenter = "${var.datacenter}"

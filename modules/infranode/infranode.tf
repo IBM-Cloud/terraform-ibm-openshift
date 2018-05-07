@@ -1,4 +1,4 @@
-provider "ibm" {}
+# Provision the infra node
 
 module "storage_infranode" {
   source     = "../storage_infranode"

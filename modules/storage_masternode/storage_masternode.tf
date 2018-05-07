@@ -3,8 +3,6 @@
 # file storage for infra
 # block storage for master and app
 
-provider "ibm" {}
-
 #################################################
 # Block Storage
 #################################################

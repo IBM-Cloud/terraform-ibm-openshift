@@ -1,5 +1,3 @@
-provider ibm {}
-
 //  This security group allows public ingress to the instances for HTTP, HTTPS
 //  and common HTTP/S proxy ports.
 

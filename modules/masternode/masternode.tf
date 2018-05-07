@@ -1,4 +1,4 @@
-provider "ibm" {}
+# Provision the master node
 
 module "storage_masternode" {
   source     = "../storage_masternode"
