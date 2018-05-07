@@ -119,7 +119,7 @@ Once the setup is complete, just run:
    ```
 This figure illustrates the 'Red Hat Openshift Console'
 
-![Openshift Console](https://github.com/IBMTerraform/terraform-ibm-openshift/blob/master/docs/ose-console.png)
+![Openshift Console](https://github.com/IBMTerraform/terraform-ibm-openshift/blob/master/docs/ose-console1.png)
 
 To open a browser to admin console, use the following credentials to login:
    ``` console
