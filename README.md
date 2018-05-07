@@ -29,7 +29,9 @@ The following figure illustrates the deployment architecture for the 'OpenShift 
 
 * IBM Cloud account (used to provision resources on IBM Cloud Infrastructure or SoftLayer)
 
-## Steps to execute the project inside a docker image
+* RedHat Account with openshift subscription.
+
+## Steps to bringup the docker container with IBMCloud Terraform Provider
 
 * Get the latest ibmcloud terraform provider image using the following command:
     
@@ -37,12 +39,16 @@ The following figure illustrates the deployment architecture for the 'OpenShift 
     # Pull the docker image
     $ docker pull ibmterraform/terraform-provider-ibm-docker
     ```
-* Bring up the container using the docker image
+* Bring up the container using the docker image using the following command:
 
     ``` console
     # Run the container
     $ docker run -it ibmterraform/terraform-provider-ibm-docker:latest
     ```
+    
+## Steps to execute inside the docker container
+
+### 1. Setup the IBM Terraform Openshift Project
 
 * Clone the repo [IBM Terraform Openshift](https://github.com/IBMTerraform/terraform-ibm-openshift) 
 
@@ -52,14 +58,15 @@ The following figure illustrates the deployment architecture for the 'OpenShift 
     $ cd terraform-ibm-openshift/
     ```
 
-* Private key is required to do ssh to the machines.(Put the private key inside ~/.ssh/id_rsa)
+* Generate the private and public key pair which is required to provision the   virtual machines in softlayer.(Put the private key inside ~/.ssh/id_rsa)
 
 
-## 1. Provison the IBM Cloud Infrastrcture for Red Hat® OpenShift
+### 2. Provision the IBM Cloud Infrastrcture for Red Hat® OpenShift
 
-1. Review and update the variables.tf file 
+* Update variables.tf file 
 
-2. Provision the infrastructure using the following command
+* Provision the infrastructure using the following command
+
    ``` console
    # Create the infrastructure.
    $ make infrastructure
@@ -77,12 +84,12 @@ On successful completion, you will see the following message
    ```
    ...
 
-   Apply complete! Resources: 40 added, 0 changed, 0 destroyed.
+   Apply complete! Resources: 42 added, 0 changed, 0 destroyed.
    ```
 
-## 2. Setup REDHAT Repositories and images for the disconnected installation
+### 3. Setup Red Hat® Repositories and images for the disconnected installation
 
-Install the repos and images by running :
+* Install the repos and images by running :
 
   ``` console
     $ make rhn_username=<rhn_username> rhn_password=<rhn_password> bastion
@@ -93,7 +100,7 @@ This step includes the following:
  * Register the Bastion node to the Red Hat® Network, 
  * Prepare the Bastion node as the local repository (with rpms & container images), to install OpenShift in the rest of the nodes
 
-## 3. Deploy OpenShift Container Platform on IBM Cloud Infrastrcture
+### 4. Deploy OpenShift Container Platform on IBM Cloud Infrastrcture
 
 To install OpenShift on the cluster, just run:
    ``` console
@@ -110,6 +117,9 @@ Once the setup is complete, just run:
    ``` console
    $ open https://$(terraform output master_private_ip):8443/console
    ```
+This figure illustrates the Red Hat Openshift Console
+
+![Openshift Console](https://github.com/IBMTerraform/terraform-ibm-openshift/blob/master/docs/ose-console.png)
 
 To open a browser to admin console, use the following credentials to login:
    ``` console
@@ -131,6 +141,7 @@ Default project is in use and the core infrastructure components (router etc) ar
   ``` console
     $ oc login https://$(terraform output master_private_ip):8443
   ```
+
 Provide username as admin and password as test123 to login to the opeshift client.
 
 * Create new project
