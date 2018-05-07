@@ -50,6 +50,13 @@ The following figure illustrates the deployment architecture for the 'OpenShift 
 
 ### 1. Setup the IBM Terraform Openshift Project
 
+* Install ssh package
+
+  ``` console
+    # Install ssh package
+    $ apk add ssh
+  ```
+
 * Clone the repo [IBM Terraform Openshift](https://github.com/IBMTerraform/terraform-ibm-openshift) 
 
     ``` console
@@ -117,6 +124,8 @@ Once the setup is complete, just run:
    ``` console
    $ open https://$(terraform output master_private_ip):8443/console
    ```
+Note: Add IP and Host Entry in /etc/hosts
+ 
 This figure illustrates the 'Red Hat Openshift Console'
 
 ![Openshift Console](https://github.com/IBMTerraform/terraform-ibm-openshift/blob/master/docs/ose-console1.png)
