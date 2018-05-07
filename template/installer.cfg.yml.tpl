@@ -12,7 +12,7 @@ deployment:
     roles:
     - master
     - etcd
-    - storage
+    - node
   - connect_to: ${app_private_ip}
     hostname: ${app_hostname}
     ip: ${app_private_ip}
@@ -28,6 +28,7 @@ deployment:
     public_ip: ${infra_public_ip}
     roles:
     - node
+    - storage
   master_routingconfig_subdomain: ''
   openshift_disable_check: docker_image_availability,docker_storage,memory_availability,package_availability,package_version
   openshift_master_identity_providers: [{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
