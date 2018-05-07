@@ -70,5 +70,5 @@ openshift:
 	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- $$(terraform output master_private_ip) post_install_master.sh" < scripts/remote_exe.sh
 
 	# Execute the post install script on nodes
-    ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- $$(terraform output infra_private_ip) post_install_node.sh" < scripts/remote_exe.sh
-    ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- $$(terraform output app_private_ip) post_install_node.sh" < scripts/remote_exe.sh
+    	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- $$(terraform output infra_private_ip) post_install_node.sh" < scripts/remote_exe.sh
+    	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- $$(terraform output app_private_ip) post_install_node.sh" < scripts/remote_exe.sh
