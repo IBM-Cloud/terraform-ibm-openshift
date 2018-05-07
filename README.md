@@ -54,7 +54,7 @@ The following figure illustrates the deployment architecture for the 'OpenShift 
 
   ``` console
     # Install ssh package
-    $ apk add ssh
+    $ apk add --no-cache openssh
   ```
 
 * Clone the repo [IBM Terraform Openshift](https://github.com/IBMTerraform/terraform-ibm-openshift) 
