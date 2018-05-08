@@ -65,7 +65,7 @@ The following figure illustrates the deployment architecture for the 'OpenShift 
     $ cd terraform-ibm-openshift/
     ```
 
-* Generate the private and public key pair which is required to provision the   virtual machines in softlayer.(Put the private key inside ~/.ssh/id_rsa)
+* Generate the private and public key pair which is required to provision the   virtual machines in softlayer.(Put the private key inside ~/.ssh/id_rsa).Follow the instruction [here](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/) to generate ssh key pair
 
 
 ### 2. Provision the IBM Cloud Infrastrcture for Red Hat® OpenShift
