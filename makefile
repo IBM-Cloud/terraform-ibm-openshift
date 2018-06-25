@@ -40,11 +40,6 @@ openshift:
 	scp scripts/post_install_master.sh root@$$(terraform output bastion_public_ip):~
 	scp scripts/post_install_node.sh root@$$(terraform output bastion_public_ip):~
 
-	#Disable subscription on nodes
-	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- $$(terraform output master_private_ip) disable_subscription.sh" < scripts/remote_exe.sh
-	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- $$(terraform output infra_private_ip) disable_subscription.sh" < scripts/remote_exe.sh
-	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- $$(terraform output app_private_ip) disable_subscription.sh" < scripts/remote_exe.sh
-	
 	#copy repo files
 	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- ose.repo $$(terraform output master_private_ip) /etc/yum.repos.d/ose.repo" < scripts/copy_file_bastion_nodes.sh
 	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- ose.repo $$(terraform output infra_private_ip) /etc/yum.repos.d/ose.repo" < scripts/copy_file_bastion_nodes.sh

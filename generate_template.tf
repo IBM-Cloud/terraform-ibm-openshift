@@ -63,5 +63,3 @@ resource "local_file" "ose_nodes_config_file" {
   content     = "${data.template_file.ose_nodes_config.rendered}"
   filename = "${path.cwd}/scripts/update_nodes.sh"
 }
-
-

@@ -5,23 +5,27 @@ yum clean all
 yum -y update
 yum -y install yum-utils createrepo docker git
 
-# Install all the rpms required for openshift
-mkdir -p /tmp/repos
 
-for repo in rhel-7-server-rpms rhel-7-server-extras-rpms rhel-7-server-ose-3.6-rpms
+yum install httpd -y
+mkdir -p /var/www/html/repos
+
+
+for repo in rhel-7-server-ose-3.6-rpms
 do
- reposync --gpgcheck -lm --repoid=${repo} --download_path=/tmp/repos/
+ reposync --gpgcheck -lm --repoid=${repo} --download_path=/var/www/html/repos/
  if [ ${repo} == "rhel-7-server-ose-3.6-rpms" ]
  then
-  wget ftp://mirror.switch.ch/pool/4/mirror/centos/7.4.1708/cloud/x86_64/openstack-newton/openvswitch-2.6.1-10.1.git20161206.el7.x86_64.rpm -P /tmp/repos/${repo}/Packages
+  wget ftp://mirror.switch.ch/pool/4/mirror/centos/7.5.1804/cloud/x86_64/openstack-ocata/openvswitch-2.6.1-10.1.git20161206.el7.x86_64.rpm -P /var/www/html/repos/${repo}/Packages
  fi
- createrepo -v /tmp/repos/${repo} -o /tmp/repos/${repo}
+ createrepo -v /var/www/html/repos/${repo} -o /var/www/html/repos/${repo}
 done
 
 # Install all the images required for openshift
 
 systemctl start docker
 
+
+ 
 #Pull all of the required OpenShift Enterprise containerized components:
 
 docker pull registry.access.redhat.com/openshift3/ose-haproxy-router:v3.6.173.0.112
@@ -45,9 +49,9 @@ docker pull registry.access.redhat.com/openshift3/metrics-heapster
 
 #Preparing images to export
 
-mkdir -p /tmp/repos/images
+mkdir -p /var/www/html/repos/images
 
-cd /tmp/repos/images
+cd /var/www/html/repos/images
 
 docker save -o ose3.6-images.tar \
     registry.access.redhat.com/openshift3/ose-haproxy-router \
@@ -70,8 +74,6 @@ docker save -o ose3-logging-metrics-images.tar \
 
 #Configure httpd server
 
-yum install httpd -y
-cp -a /tmp/repos /var/www/html/
 chmod -R +r /var/www/html/repos
 restorecon -vR /var/www/html
 systemctl enable firewalld
