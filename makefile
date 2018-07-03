@@ -35,7 +35,6 @@ openshift:
 	#Prepare the master and nodes for the openshift install
 	scp scripts/ose.repo root@$$(terraform output bastion_public_ip):~
 	scp scripts/update_nodes.sh root@$$(terraform output bastion_public_ip):~
-	scp scripts/update_master.sh root@$$(terraform output bastion_public_ip):~
 	scp scripts/disable_subscription.sh root@$$(terraform output bastion_public_ip):~
 	scp scripts/post_install_master.sh root@$$(terraform output bastion_public_ip):~
 	scp scripts/post_install_node.sh root@$$(terraform output bastion_public_ip):~
@@ -50,17 +49,15 @@ openshift:
 	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- $$(terraform output infra_private_ip) update_nodes.sh" < scripts/remote_exe.sh
 	ssh -o StrictHostKeyChecking=no -A root@$$(terraform output bastion_public_ip) "bash -s -- $$(terraform output app_private_ip) update_nodes.sh" < scripts/remote_exe.sh
 
-	#Update master
-	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- $$(terraform output master_private_ip) update_master.sh" < scripts/remote_exe.sh
-
 	# Update bastion node	
 	cat ./scripts/prepare_bastion.sh | ssh -o StrictHostKeyChecking=no -A root@$$(terraform output bastion_public_ip)
-	ssh -o StrictHostKeyChecking=no -A root@$$(terraform output bastion_public_ip) 'mkdir -p /root/.config/openshift/'
 	
 	# Install openshift
-	scp ./templates/installer.cfg.yml root@$$(terraform output bastion_public_ip):/root/.config/openshift/
-	ssh root@$$(terraform output bastion_public_ip) 'atomic-openshift-installer -u -c /root/.config/openshift/installer.cfg.yml install'
-
+	
+	scp ./templates/inventory.cfg root@$$(terraform output bastion_public_ip):/root/
+	ssh root@$$(terraform output bastion_public_ip) 'ansible-playbook -i /root/inventory.cfg /usr/share/ansible/openshift-ansible/playbooks/prerequisites.yml'
+	ssh root@$$(terraform output bastion_public_ip) 'ansible-playbook -i /root/inventory.cfg /usr/share/ansible/openshift-ansible/playbooks/deploy_cluster.yml'
+	
 	# Execute the post install script on master
 	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- $$(terraform output master_private_ip) post_install_master.sh" < scripts/remote_exe.sh
 
