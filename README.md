@@ -1,6 +1,6 @@
 # terraform-ibm-openshift
 
-Use this project to set up Red Hat® OpenShift Container Platform 3 on IBM Cloud, using Terraform.
+Use this project to set up Red Hat® OpenShift Container Platform 3.9 on IBM Cloud, using Terraform.
 
 ## Overview
 Deployment of 'OpenShift Container Platform on IBM Cloud' is divided into separate steps.
@@ -91,7 +91,7 @@ On successful completion, you will see the following message
    ```
    ...
 
-   Apply complete! Resources: 42 added, 0 changed, 0 destroyed.
+   Apply complete! Resources: 41 added, 0 changed, 0 destroyed.
    ```
 
 ### 3. Setup Red Hat® Repositories and images for the disconnected installation
@@ -116,7 +116,7 @@ To install OpenShift on the cluster, just run:
 
 This step includes the following: 
 * Prepare the Master, Infra & App nodes before installing OpenShift
-* Finally, install OpenShift Container Platform v3.6 using the disconnected & quick installation procedure described [here]( https://docs.openshift.com/container-platform/3.6/install_config/install/disconnected_install.html). 
+* Finally, install OpenShift Container Platform v3.9 using the disconnected & advanced installation procedure described [here]( https://docs.openshift.com/container-platform/3.9/install_config/install/disconnected_install.html). 
 
 
 Once the setup is complete, just run:
@@ -128,7 +128,7 @@ Note: Add IP and Host Entry in /etc/hosts
  
 This figure illustrates the 'Red Hat Openshift Console'
 
-![Openshift Console](https://github.com/IBMTerraform/terraform-ibm-openshift/blob/master/docs/ose-console1.png)
+![Openshift Console](https://github.com/IBMTerraform/terraform-ibm-openshift/blob/master/docs/ose-console-3.9.png)
 
 To open a browser to admin console, use the following credentials to login:
    ``` console
@@ -200,11 +200,11 @@ Bring down the openshift cluster by running following
   
 * https://github.com/ibm-cloud/terraform-provider-ibm - Terraform Provider for IBM Cloud  
   
-* [Deploying OpenShift Container Platform 3.6](https://docs.openshift.com/container-platform/3.6/install_config/install/quick_install.html)
+* [Deploying OpenShift Container Platform 3.9](https://docs.openshift.com/container-platform/3.9/install_config/install/advanced_install.html)
 
-* [To create more users and provide admin priviledge](https://docs.openshift.com/container-platform/3.6/install_config/configuring_authentication.html#install-config-configuring-authentication)
+* [To create more users and provide admin priviledge](https://docs.openshift.com/container-platform/3.9/install_config/configuring_authentication.html)
 
-* [Accessing openshift registry](https://docs.openshift.com/container-platform/3.6/install_config/configuring_authentication.html#install-config-configuring-authentication)
+* [Accessing openshift registry](https://docs.openshift.com/container-platform/3.9/install_config/registry/index.html#install-config-registry-overview)
 
-* [Refer Openshift Router](https://docs.openshift.com/container-platform/3.6/install_config/router/index.html#install-config-router-overview)
+* [Refer Openshift Router](https://docs.openshift.com/container-platform/3.9/install_config/router/index.html#install-config-router-overview)
 
