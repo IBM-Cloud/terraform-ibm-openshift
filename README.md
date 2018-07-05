@@ -17,9 +17,9 @@ Deployment of 'OpenShift Container Platform on IBM Cloud' is divided into separa
 
 The following figure illustrates the deployment architecture for the 'OpenShift Container Platform on IBM Cloud'.
 
-![Infrastructure Diagram](https://github.com/IBMTerraform/terraform-ibm-openshift/blob/master/docs/infra-diagram.png)
+![Infrastructure Diagram](https://github.com/IBM-Cloud/terraform-ibm-openshift/blob/master/docs/infra-diagram.png)
 
-`Note:` This version illustrates the deployment of a very basic architecture of Red Hat® OpenShift Container Platform on IBM Cloud.  The [article](https://github.com/IBMTerraform/terraform-ibm-openshift/blob/master/docs/01-Provision-Infra.md) describes reference implementation of Red Hat® OpenShift Container Platform on IBM Cloud Infrastructure.
+`Note:` This version illustrates the deployment of a very basic architecture of Red Hat® OpenShift Container Platform on IBM Cloud.  The [article](https://github.com/IBM-Cloud/terraform-ibm-openshift/blob/master/docs/01-Provision-Infra.md) describes reference implementation of Red Hat® OpenShift Container Platform on IBM Cloud Infrastructure.
 
 ## Prerequisite
 
@@ -57,11 +57,11 @@ The following figure illustrates the deployment architecture for the 'OpenShift 
     $ apk add --no-cache openssh
   ```
 
-* Clone the repo [IBM Terraform Openshift](https://github.com/IBMTerraform/terraform-ibm-openshift) 
+* Clone the repo [IBM Terraform Openshift](https://github.com/IBM-Cloud/terraform-ibm-openshift) 
 
     ``` console
     # Clone the repo
-    $ git clone https://github.com/IBMTerraform/terraform-ibm-openshift.git
+    $ git clone https://github.com/IBM-Cloud/terraform-ibm-openshift.git
     $ cd terraform-ibm-openshift/
     ```
 
@@ -128,7 +128,7 @@ Note: Add IP and Host Entry in /etc/hosts
  
 This figure illustrates the 'Red Hat Openshift Console'
 
-![Openshift Console](https://github.com/IBMTerraform/terraform-ibm-openshift/blob/master/docs/ose-console-3.9.png)
+![Openshift Console](https://github.com/IBM-Cloud/terraform-ibm-openshift/blob/master/docs/ose-console-3.9.png)
 
 To open a browser to admin console, use the following credentials to login:
    ``` console
