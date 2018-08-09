@@ -84,11 +84,11 @@ module "bastion" {
 }
 
 # Use load balancer & gateway, for a scalable architecture
-/*
+
 #####################################################
 # Create infra lbaas
 #####################################################
-module "lbaas_infra" {
+/*module "lbaas_infra" {
   source        = "modules/lbaas_infranode"
   datacenter    = "${var.datacenter}"
   node_count    = "${var.infra_count}"
@@ -103,7 +103,7 @@ module "lbaas_master" {
   datacenter    = "${var.datacenter}"
   ip_address_id = "${module.masternode.master_ip_address_id}"
 }
-
+*/
 #####################################################
 # Create gateway
 #####################################################
@@ -116,6 +116,3 @@ module "gateway" {
   public_vlan_id  = "${module.network.openshift_public_vlan_id}"
   random_id = "${random_id.ose_name.hex}"
 }
-
-*/
-

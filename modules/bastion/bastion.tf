@@ -55,6 +55,10 @@ output "bastion_ip_address" {
   value = "${ibm_compute_vm_instance.bastion.ipv4_address}"
 }
 
+output "bastion_private_ip" {
+  value = "${ibm_compute_vm_instance.bastion.ipv4_address_private}"
+}
+
 output "bastion_domain" {
   value = "${ibm_compute_vm_instance.bastion.domain}"
 }

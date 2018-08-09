@@ -5,11 +5,12 @@ infrastructure:
 bastion:
 
 	# Register the System with redhat
-	ssh root@$$(terraform output bastion_public_ip) 'bash -s' < ./scripts/rhn_register.sh $(rhn_username) $(rhn_password)
+	ssh -o StrictHostKeyChecking=no -A root@$$(terraform output bastion_public_ip) 'bash -s' < ./scripts/rhn_register.sh $(rhn_username) $(rhn_password)
 	
 	# Install all the rpms and docker images required by the openshift
 	cat ./scripts/setup_bastion_http.sh | ssh -o StrictHostKeyChecking=no -A root@$$(terraform output bastion_public_ip)
 	
+
 openshift:
 	
 	# Prepare the master , infra and app nodes
@@ -22,12 +23,8 @@ openshift:
 	ssh -A root@$$(terraform output bastion_public_ip) "ssh-keyscan -t rsa $$(terraform output app_private_ip)  >> ~/.ssh/known_hosts"
 	
 	#update the /etc/hosts file and copy to all nodes
-	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "echo $$(terraform output master_private_ip) $$(terraform output master_host) $$(terraform output master_hostname)>> /etc/hosts" 
-	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "echo $$(terraform output infra_private_ip) $$(terraform output infra_host) $$(terraform output infra_hostname)>> /etc/hosts"
-	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "echo $$(terraform output app_private_ip) $$(terraform output app_host) $$(terraform output app_hostname)>> /etc/hosts"
-	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "echo $$(terraform output master_public_ip) $$(terraform output master_host) $$(terraform output master_hostname)>> /etc/hosts" 
-	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "echo $$(terraform output infra_public_ip) $$(terraform output infra_host) $$(terraform output infra_hostname)>> /etc/hosts"
-	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "echo $$(terraform output app_public_ip) $$(terraform output app_host) $$(terraform output app_hostname)>> /etc/hosts"
+	scp scripts/hosts root@$$(terraform output bastion_public_ip):~
+	ssh -o StrictHostKeyChecking=no -A root@$$(terraform output bastion_public_ip) 'cat hosts >> /etc/hosts'
 	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- /etc/hosts $$(terraform output master_private_ip) /etc/hosts" < scripts/copy_file_bastion_nodes.sh
 	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s --  /etc/hosts $$(terraform output infra_private_ip) /etc/hosts" < scripts/copy_file_bastion_nodes.sh
 	ssh -o StrictHostKeyChecking=no  -A root@$$(terraform output bastion_public_ip) "bash -s -- /etc/hosts $$(terraform output app_private_ip) /etc/hosts" < scripts/copy_file_bastion_nodes.sh
@@ -51,9 +48,8 @@ openshift:
 
 	# Update bastion node	
 	cat ./scripts/prepare_bastion.sh | ssh -o StrictHostKeyChecking=no -A root@$$(terraform output bastion_public_ip)
-	
+
 	# Install openshift
-	
 	scp ./templates/inventory.cfg root@$$(terraform output bastion_public_ip):/root/
 	ssh root@$$(terraform output bastion_public_ip) 'ansible-playbook -i /root/inventory.cfg /usr/share/ansible/openshift-ansible/playbooks/prerequisites.yml'
 	ssh root@$$(terraform output bastion_public_ip) 'ansible-playbook -i /root/inventory.cfg /usr/share/ansible/openshift-ansible/playbooks/deploy_cluster.yml'

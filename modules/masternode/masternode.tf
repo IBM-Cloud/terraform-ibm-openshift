@@ -11,15 +11,15 @@ resource "ibm_compute_vm_instance" "masternode" {
   domain                    = "${var.vm-domain}"
   datacenter                = "${var.datacenter}"
   block_storage_ids         = ["${module.storage_masternode.masterblockid}"]
-  private_network_only      = "false"
+  private_network_only      = "true"
   network_speed             = 100
   local_disk                = false
   flavor_key_name           = "${var.flavor_key_name}"
   disks                     = [50, 25, 25]
   ssh_key_ids               = ["${var.ssh_key_id}"]
   private_vlan_id           = "${var.private_vlan_id}"
-  public_vlan_id           = "${var.public_vlan_id}"
-  public_security_group_ids = ["${var.openshift-sg-master}"]
+  //public_vlan_id           = "${var.public_vlan_id}"
+ // public_security_group_ids = ["${var.openshift-sg-master}"]
   private_security_group_ids = ["${var.openshift-sg-master}"]
 }
 

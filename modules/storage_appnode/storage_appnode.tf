@@ -11,7 +11,7 @@
 #################################################
 
 resource "ibm_storage_block" "appnodeblock" {
-  count          = "${var.storage_count}"
+  //count          = "${var.storage_count}"
   type           = "Performance"
   datacenter     = "${var.datacenter}"
   capacity       = 80
@@ -22,7 +22,7 @@ resource "ibm_storage_block" "appnodeblock" {
 ##################################################
 # variables
 ##################################################
-variable "storage_count"{}
+//variable "storage_count"{}
 
 variable "datacenter" {}
 

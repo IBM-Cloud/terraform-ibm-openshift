@@ -7,7 +7,7 @@ variable "infra_count" {
 }
 
 variable "app_count" {
-  default = 1
+  default = 2
 }
 
 variable "ssh_public_key" {
@@ -31,7 +31,9 @@ variable "private_router" {
   description = "the router to use for the private VLAN."
 }
 
-variable "ibm_sl_username"{}
+variable "ibm_sl_username"{
+}
 
 
-variable "ibm_sl_api_key"{}
+variable "ibm_sl_api_key"{
+}

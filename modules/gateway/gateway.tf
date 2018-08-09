@@ -25,33 +25,15 @@ resource "ibm_network_gateway" "openshift-gateway" {
     ipv6_enabled      = true
   }
 
-  # Configure the gateway, create your configuration file create-vifs.vcli
-  /*
-connection {
-   type        = "ssh"
-   user        = "vyatta"
-   host        = "${self.public_ipv4_address}"
-   private_key = “${file(“~/.ssh/id_rsa”)}”
- }
-
-provisioner "file" {
-   source      = "create-vifs.vcli"
-   destination = "/tmp/create-vifs.vcli"
- }
-
-provisioner "remote-exec" {
-   inline = [
-     "chmod +x /tmp/create-vifs.vcli",
-     "/tmp/create-vifs.vcli",
-   ]
- }*/
 }
+  
 
 # Variables
 
 resource "ibm_network_gateway_vlan_association" "openshift_vlan_attachment" {
-  gateway_id      = "${ibm_network_gateway.openshift-gateway.id}"
+  gateway_id = "${ibm_network_gateway.openshift-gateway.id}"
   network_vlan_id = "${var.public_vlan_id}"
+  //bypass = false
 }
 
 resource "ibm_network_gateway_vlan_association" "openshift_vlan_attachment1" {

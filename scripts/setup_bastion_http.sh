@@ -29,42 +29,42 @@ systemctl start docker
 
 #Pull all of the required OpenShift Enterprise containerized components:
 
-docker pull registry.access.redhat.com/openshift3/ose-ansible:v3.9.31
-docker pull registry.access.redhat.com/openshift3/ose-cluster-capacity:v3.9.31
-docker pull registry.access.redhat.com/openshift3/ose-deployer:v3.9.31
-docker pull registry.access.redhat.com/openshift3/ose-docker-builder:v3.9.31
-docker pull registry.access.redhat.com/openshift3/ose-docker-registry:v3.9.31
-docker pull registry.access.redhat.com/openshift3/ose-egress-http-proxy:v3.9.31
-docker pull registry.access.redhat.com/openshift3/ose-egress-router:v3.9.31
-docker pull registry.access.redhat.com/openshift3/ose-f5-router:v3.9.31
-docker pull registry.access.redhat.com/openshift3/ose-haproxy-router:v3.9.31
-docker pull registry.access.redhat.com/openshift3/ose-keepalived-ipfailover:v3.9.31
-docker pull registry.access.redhat.com/openshift3/ose-pod:v3.9.31
-docker pull registry.access.redhat.com/openshift3/ose-sti-builder:v3.9.31
-docker pull registry.access.redhat.com/openshift3/ose-template-service-broker:v3.9.31
-docker pull registry.access.redhat.com/openshift3/ose-web-console:v3.9.31
-docker pull registry.access.redhat.com/openshift3/ose:v3.9.31
-docker pull registry.access.redhat.com/openshift3/container-engine:v3.9.31
-docker pull registry.access.redhat.com/openshift3/node:v3.9.31
-docker pull registry.access.redhat.com/openshift3/openvswitch:v3.9.31
+docker pull registry.access.redhat.com/openshift3/ose-ansible:v3.9.33
+docker pull registry.access.redhat.com/openshift3/ose-cluster-capacity:v3.9.33
+docker pull registry.access.redhat.com/openshift3/ose-deployer:v3.9.33
+docker pull registry.access.redhat.com/openshift3/ose-docker-builder:v3.9.33
+docker pull registry.access.redhat.com/openshift3/ose-docker-registry:v3.9.33
+docker pull registry.access.redhat.com/openshift3/ose-egress-http-proxy:v3.9.33
+docker pull registry.access.redhat.com/openshift3/ose-egress-router:v3.9.33
+docker pull registry.access.redhat.com/openshift3/ose-f5-router:v3.9.33
+docker pull registry.access.redhat.com/openshift3/ose-haproxy-router:v3.9.33
+docker pull registry.access.redhat.com/openshift3/ose-keepalived-ipfailover:v3.9.33
+docker pull registry.access.redhat.com/openshift3/ose-pod:v3.9.33
+docker pull registry.access.redhat.com/openshift3/ose-sti-builder:v3.9.33
+docker pull registry.access.redhat.com/openshift3/ose-template-service-broker:v3.9.33
+docker pull registry.access.redhat.com/openshift3/ose-web-console:v3.9.33
+docker pull registry.access.redhat.com/openshift3/ose:v3.9.33
+docker pull registry.access.redhat.com/openshift3/container-engine:v3.9.33
+docker pull registry.access.redhat.com/openshift3/node:v3.9.33
+docker pull registry.access.redhat.com/openshift3/openvswitch:v3.9.33
 docker pull registry.access.redhat.com/rhel7/etcd
 
 #Pull all of the required OpenShift Enterprise containerized components for the additional centralized log aggregation and metrics aggregation components:
 
-docker pull registry.access.redhat.com/openshift3/logging-auth-proxy:v3.9.31
-docker pull registry.access.redhat.com/openshift3/logging-curator:v3.9.31
-docker pull registry.access.redhat.com/openshift3/logging-elasticsearch:v3.9.31
-docker pull registry.access.redhat.com/openshift3/logging-fluentd:v3.9.31
-docker pull registry.access.redhat.com/openshift3/logging-kibana:v3.9.31
-docker pull registry.access.redhat.com/openshift3/oauth-proxy:v3.9.31
-docker pull registry.access.redhat.com/openshift3/metrics-cassandra:v3.9.31
-docker pull registry.access.redhat.com/openshift3/metrics-hawkular-metrics:v3.9.31
-docker pull registry.access.redhat.com/openshift3/metrics-hawkular-openshift-agent:v3.9.31
-docker pull registry.access.redhat.com/openshift3/metrics-heapster:v3.9.31
-docker pull registry.access.redhat.com/openshift3/prometheus:v3.9.31
-docker pull registry.access.redhat.com/openshift3/prometheus-alert-buffer:v3.9.31
-docker pull registry.access.redhat.com/openshift3/prometheus-alertmanager:v3.9.31
-docker pull registry.access.redhat.com/openshift3/prometheus-node-exporter:v3.9.31
+docker pull registry.access.redhat.com/openshift3/logging-auth-proxy:v3.9.33
+docker pull registry.access.redhat.com/openshift3/logging-curator:v3.9.33
+docker pull registry.access.redhat.com/openshift3/logging-elasticsearch:v3.9.33
+docker pull registry.access.redhat.com/openshift3/logging-fluentd:v3.9.33
+docker pull registry.access.redhat.com/openshift3/logging-kibana:v3.9.33
+docker pull registry.access.redhat.com/openshift3/oauth-proxy:v3.9.33
+docker pull registry.access.redhat.com/openshift3/metrics-cassandra:v3.9.33
+docker pull registry.access.redhat.com/openshift3/metrics-hawkular-metrics:v3.9.33
+docker pull registry.access.redhat.com/openshift3/metrics-hawkular-openshift-agent:v3.9.33
+docker pull registry.access.redhat.com/openshift3/metrics-heapster:v3.9.33
+docker pull registry.access.redhat.com/openshift3/prometheus:v3.9.33
+docker pull registry.access.redhat.com/openshift3/prometheus-alert-buffer:v3.9.33
+docker pull registry.access.redhat.com/openshift3/prometheus-alertmanager:v3.9.33
+docker pull registry.access.redhat.com/openshift3/prometheus-node-exporter:v3.9.33
 docker pull registry.access.redhat.com/cloudforms46/cfme-openshift-postgresql
 docker pull registry.access.redhat.com/cloudforms46/cfme-openshift-memcached
 docker pull registry.access.redhat.com/cloudforms46/cfme-openshift-app-utils
@@ -80,10 +80,10 @@ docker pull registry.access.redhat.com/rhgs3/rhgs-s3-server-rhel7
 
 #For the service catalog, OpenShift Ansible broker, and template service broker features
 
-docker pull registry.access.redhat.com/openshift3/ose-service-catalog:v3.9.31
-docker pull registry.access.redhat.com/openshift3/ose-ansible-service-broker:v3.9.31
-docker pull registry.access.redhat.com/openshift3/mediawiki-apb:v3.9.31
-docker pull registry.access.redhat.com/openshift3/postgresql-apb:v3.9.31
+docker pull registry.access.redhat.com/openshift3/ose-service-catalog:v3.9.33
+docker pull registry.access.redhat.com/openshift3/ose-ansible-service-broker:v3.9.33
+docker pull registry.access.redhat.com/openshift3/mediawiki-apb:v3.9.33
+docker pull registry.access.redhat.com/openshift3/postgresql-apb:v3.9.33
 
 #Preparing images to export
 
@@ -125,7 +125,11 @@ docker save -o ose3-images.tar \
     registry.access.redhat.com/rhgs3/rhgs-server-rhel7 \
     registry.access.redhat.com/rhgs3/rhgs-volmanager-rhel7 \
     registry.access.redhat.com/rhgs3/rhgs-gluster-block-prov-rhel7 \
-    registry.access.redhat.com/rhgs3/rhgs-s3-server-rhel7
+    registry.access.redhat.com/rhgs3/rhgs-s3-server-rhel7 \
+    registry.access.redhat.com/openshift3/ose-service-catalog \
+    registry.access.redhat.com/openshift3/ose-ansible-service-broker \
+    registry.access.redhat.com/openshift3/mediawiki-apb \
+    registry.access.redhat.com/openshift3/postgresql-apb
 
 echo "DONE LOADING OSE IMAGES"
 
