@@ -1,12 +1,13 @@
 # Create the gateway with single member
 
 resource "ibm_network_gateway" "openshift-gateway" {
+  count = "${var.gw_count}"
   name        = "${var.gateway-name}-${var.random_id}"
   ssh_key_ids = ["${var.ssh_key_id}"]
 
   members {
     hostname          = "${var.vm-hostname}-${var.random_id}"
-    domain            = "${var.vm-domain}"
+    domain            = "${var.vm_domain}"
     datacenter        = "${var.datacenter}"
     network_speed     = "${var.vm-network-speed}"
     ssh_key_ids       = ["${var.ssh_key_id}"]
@@ -64,7 +65,7 @@ variable "gateway-name" {
   default = "gw-ose-vm"
  }
 
-variable "vm-domain" {}
+variable "vm_domain" {}
 
 variable "vm-network-speed" {
   default = 100
@@ -82,12 +83,15 @@ variable "vm-disk-key-name" {
   default = "HARD_DRIVE_2_00TB_SATA_II"
 }
 
+variable "gw_count" {
+}
+
 #Output
 
 output "gateway_public_id" {
-  value = "${ibm_network_gateway.openshift-gateway.public_vlan_id}"
+  value = "${ibm_network_gateway.openshift-gateway.*.public_vlan_id}"
 }
 
 output "public_ip_address" {
-  value = "${ibm_network_gateway.openshift-gateway.public_ipv4_address}"
+  value = "${ibm_network_gateway.openshift-gateway.*.public_ipv4_address}"
 }

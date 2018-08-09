@@ -125,11 +125,7 @@ docker save -o ose3-images.tar \
     registry.access.redhat.com/rhgs3/rhgs-server-rhel7 \
     registry.access.redhat.com/rhgs3/rhgs-volmanager-rhel7 \
     registry.access.redhat.com/rhgs3/rhgs-gluster-block-prov-rhel7 \
-    registry.access.redhat.com/rhgs3/rhgs-s3-server-rhel7 \
-    registry.access.redhat.com/openshift3/ose-service-catalog \
-    registry.access.redhat.com/openshift3/ose-ansible-service-broker \
-    registry.access.redhat.com/openshift3/mediawiki-apb \
-    registry.access.redhat.com/openshift3/postgresql-apb
+    registry.access.redhat.com/rhgs3/rhgs-s3-server-rhel7
 
 echo "DONE LOADING OSE IMAGES"
 

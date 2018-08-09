@@ -9,7 +9,7 @@ resource "ibm_compute_vm_instance" "appnode" {
   count                     = "${var.node_count}"
   os_reference_code         = "${var.vm-os-reference-code}"
   hostname                  = "${var.vm-hostname}-${var.random_id}${count.index}"
-  domain                    = "${var.vm-domain}"
+  domain                    = "${var.vm_domain}"
   datacenter                = "${var.datacenter}" 
   block_storage_ids         = ["${module.storage_appnode.appnodeblockid}"]
   private_network_only      = "true"
@@ -43,7 +43,7 @@ variable "vm-hostname" {
   default = "app-ose"
 }
 
-variable "vm-domain" {}
+variable "vm_domain" {}
 
 variable "flavor_key_name" {
   default = "B1_4X8X100"
@@ -70,4 +70,9 @@ output "app_private_ip" {
 
 output "app_host" {
   value = "${ibm_compute_vm_instance.appnode.*.hostname}"
+}
+
+
+output "app_subnet_id" {
+  value = "${ibm_compute_vm_instance.appnode.0.private_subnet_id}"
 }

@@ -9,7 +9,7 @@ resource "ibm_compute_vm_instance" "infranode" {
   count                     = "${var.node_count}"
   os_reference_code         = "${var.vm-os-reference-code}"
   hostname                  = "${var.vm-hostname}-${var.random_id}${count.index}"
-  domain                    = "${var.vm-domain}"
+  domain                    = "${var.vm_domain}"
   datacenter                = "${var.datacenter}"
   file_storage_ids          = ["${module.storage_infranode.infranodefileid}"]
   private_network_only      = true
@@ -42,7 +42,7 @@ variable "vm-hostname" {
   default = "infra-ose"
 }
 
-variable "vm-domain" {}
+variable "vm_domain" {}
 
 variable "flavor_key_name" {
   default = "B1_4X8X100"
@@ -78,4 +78,8 @@ value = "${join("ibm_compute_vm_instance.infranode.0.domain",ibm_compute_vm_inst
 output "infra_host" {
   value = "${ibm_compute_vm_instance.infranode.*.hostname}"
 
+}
+
+output "infra_subnet_id" {
+  value = "${ibm_compute_vm_instance.infranode.0.private_subnet_id}"
 }

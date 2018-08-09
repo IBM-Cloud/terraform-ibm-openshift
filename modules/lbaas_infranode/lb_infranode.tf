@@ -1,75 +1,41 @@
 # LB.tf
-# Used to create the local IBM load balancer for the VMs in the infra
+# Used to create the local IBM load balancer for the VMs in the infra node
 #
+
 ##############################################################################
 # Create a local loadbalancer
 ##############################################################################
-resource "ibm_lb" "local_lb_infranode" {
-  connections = "${var.lb-connections}"
-  datacenter  = "${var.datacenter}"
-  ha_enabled  = false
-  dedicated   = "${var.lb-dedicated}"
+resource "ibm_lbaas" "infra_lbaas" {
+  name        = "${var.infra_lbass_name}-${var.random_id}"
+  description = "lbass for infra nodes"
+  subnets     = ["${var.subnet_id}"]
 }
 
-resource "ibm_lb_service_group" "lb_service_group_infranode" {
-  port             = "${var.lb-servvice-group-port}"
-  routing_method   = "${var.lb-servvice-group-routing-method}"
-  routing_type     = "${var.lb-servvice-group-routing-type}"
-  load_balancer_id = "${ibm_lb.local_lb_infranode.id}"
-  allocation       = "${var.lb-servvice-group-routing-allocation}"
+
+resource "ibm_lbaas_server_instance_attachment" "infra_lbaas_member" {
+  count = "${var.node_count}"
+  private_ip_address = "${element(var.infra_private_ip,count.index)}"
+  weight             = 50
+  lbaas_id           = "${ibm_lbaas.infra_lbaas.id}"
 }
 
-resource "ibm_lb_service" "test_service" {
-  count             = "${var.node_count}"
-  port              = 80
-  enabled           = true
-  service_group_id  = "${ibm_lb_service_group.lb_service_group_infranode.service_group_id}"
-  weight            = 1
-  health_check_type = "DNS"
+variable "infra_lbass_name" {
 
-  ip_address_id = "${element(var.ip_address_id, count.index)}"
 }
 
-# Variables defined on loadbalancer
+variable "subnet_id" {
+}
 
-variable "ip_address_id" {
+variable "infra_private_ip" {
   type = "list"
+} 
+
+variable "node_count" {
+
 }
 
-variable "node_count" {}
+variable "random_id" {}
 
-variable "lb-connections" {
-  default = 250
-}
-
-variable "datacenter" {}
-
-variable "lb-dedicated" {
-  default = false
-}
-
-variable "lb-servvice-group-port" {
-  default = 80
-}
-
-variable "lb-servvice-group-routing-method" {
-  default = "CONSISTENT_HASH_IP"
-}
-
-variable "lb-servvice-group-routing-type" {
-  default = "HTTP"
-}
-
-variable "lb-servvice-group-routing-allocation" {
-  default = 100
-}
-
-#output
-
-output "lbass_id_infranode" {
-  value = "${ibm_lb_service_group.lb_service_group_infranode.id}"
-}
-
-output "cluster_address_infranode" {
-  value = "http://${ibm_lb.local_lb_infranode.ip_address}"
+output "infra_lbass_vip" {
+  value = "${ibm_lbaas.infra_lbaas.vip}"
 }
