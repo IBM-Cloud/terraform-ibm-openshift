@@ -6,7 +6,7 @@ Use this project to set up Red Hat® OpenShift Container Platform 3.9 on IBM Clo
 Deployment of 'OpenShift Container Platform on IBM Cloud' is divided into separate steps.
 	
 * Step 1: Provision the infrastructure on IBM Cloud <br>
-  Use Terraform to provision the compute, storage, network, load balancers & IAM resources on IBM Cloud Infrastructure
+  Use Terraform to provision the compute, storage, network & IAM resources on IBM Cloud Infrastructure
   
 * Step 2: Deploy OpenShift Container Platform on IBM Cloud <br>
   Install OpenShift Container Platform which is done using the Ansible playbooks - available in the https://github.com/openshift/openshift-ansible project. 
@@ -17,7 +17,9 @@ Deployment of 'OpenShift Container Platform on IBM Cloud' is divided into separa
 
 The following figure illustrates the deployment architecture for the 'OpenShift Container Platform on IBM Cloud'.
 
-![Infrastructure Diagram](./docs/infra-diagram.png)
+![Infrastructure Diagram](./infra-diagram-2.png)
+
+`Note:` This version illustrates the deployment of a very basic architecture of Red Hat® OpenShift Container Platform on IBM Cloud.  The [article](https://github.com/IBM-Cloud/terraform-ibm-openshift/blob/master/docs/01-Provision-Infra.md) describes reference implementation of Red Hat® OpenShift Container Platform on IBM Cloud Infrastructure.
 
 ## Prerequisite
 
@@ -84,18 +86,12 @@ In this version, the following infrastructure elements are provisioned for OpenS
 * Infra node
 * App node
 * Security groups for these nodes
-* Local load balancers for Infra and App nodes
 
 On successful completion, you will see the following message
    ```
    ...
 
-   Apply complete! Resources: 47 added, 0 changed, 0 destroyed.
-   module.lbass_infra.ibm_lbass.infra_lbass: Still Creating....
-   module.lbass_app.ibm_lbass.app_lbass: Still Creating....
-   .....
-   Apply complete! Resources: 4 added, 0 changed, 0 destroyed.
-
+   Apply complete! Resources: 41 added, 0 changed, 0 destroyed.
    ```
 
 ### 3. Setup Red Hat® Repositories and images for the disconnected installation
@@ -103,8 +99,9 @@ On successful completion, you will see the following message
 * Install the repos and images by running :
 
   ``` console
-    $ make bastion
+    $ make rhn_username=<rhn_username> rhn_password=<rhn_password> bastion
   ```
+Where, the rhn_username and rhn_password are the username & password of the Red Hat® Network subscription.
 
 This step includes the following: 
  * Register the Bastion node to the Red Hat® Network, 
@@ -125,7 +122,7 @@ This step includes the following:
 Once the setup is complete, just run:
 
    ``` console
-   $ open https://$(terraform output master_public_ip):8443/console
+   $ open https://$(terraform output master_private_ip):8443/console
    ```
 Note: Add IP and Host Entry in /etc/hosts
  
@@ -144,17 +141,17 @@ To open a browser to admin console, use the following credentials to login:
 * Login to the master node
 
   ``` console
-   $ ssh -t -A root@$(terraform output master_public_ip)
+   $ ssh -t -A root@$(terraform output bastion_public_ip) ssh root@$(terraform output master_private_ip)
   ```
-  Default project is in use and the core infrastructure components (router etc) are available.
+Default project is in use and the core infrastructure components (router etc) are available.
 
 * Login to openshift client by running
 
   ``` console
-    $ oc login https://$(terraform output master_public_ip):8443
+    $ oc login https://$(terraform output master_private_ip):8443
   ```
 
-  Provide username as admin and password as test123 to login to the openshift client.
+Provide username as admin and password as test123 to login to the openshift client.
 
 * Create new project
 
@@ -165,10 +162,8 @@ To open a browser to admin console, use the following credentials to login:
 
 * Deploy the app 
 
-    Infra and App nodes are on private network push an image to internal registry to access the image follow the procedure [here](https://docs.openshift.com/container-platform/3.9/install_config/registry/accessing_registry.html)
-
   ``` console
-   $ oc new-app --name=nginx --docker-image=<regisrty-ip>:<port>/test/nginx
+   $ oc new-app --name=nginx --docker-image=bitnami/nginx
 
   ```
 * Expose the service 
@@ -183,14 +178,7 @@ To open a browser to admin console, use the following credentials to login:
    $ oc edit svc/nginx
 
   ```
-
-  Now login into softlayer console define front-end application ports (protocols) and map them to respective ports (protocols) on the back-end application servers in App local loadbalancer. The fully qualified domain name assigned to your load balancer service instance and the front-end application ports are exposed to the external world. The incoming user requests are received on these ports. 
-
-  Access the deployed application at 
-  ```
-  http://${terraform output app_lbass_url}:${front-end-port}
-
-  ```
+Access the deployed application at http${nodeIP}:${nodePort}
 
 
 ## Destroy the OpenShift cluster
@@ -198,7 +186,7 @@ To open a browser to admin console, use the following credentials to login:
 Bring down the openshift cluster by running following
 
   ``` console
-   $ make destroy
+   $ terraform destroy
 
   ```
   
