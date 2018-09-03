@@ -19,14 +19,15 @@ ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
 # If ansible_ssh_user is not root, ansible_become must be set to true
 ansible_become=false
 
-# Deploy OpenShift Origin 3.9.
-openshift_deployment_type=origin
-openshift_release=v3.9
+# Deploy OpenShift Enterprise 3.9.
+openshift_deployment_type=openshift-enterprise
+openshift_version= 3.9.33
+openshift_enable_docker_excluder=false
 
 # We need a wildcard DNS setup for our public access to services, fortunately
 # we can use the superb xip.io to get one for free.
 openshift_public_hostname=${master_hostname}
-openshift_master_default_subdomain=${master_hostname}
+openshift_master_default_subdomain=openshit.ibm.com
 
 # Use an htpasswd file as the indentity provider.
 openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
@@ -45,6 +46,4 @@ ${master_hostname} openshift_hostname=${master_hostname}
 
 # host group for nodes, includes region info
 [nodes]
-${master_hostname} openshift_hostname=${master_hostname} openshift_node_labels="{'region': 'infra', 'zone': 'default'}" openshift_schedulable=true
-${app_hostname} openshift_hostname=${app_hostname} openshift_node_labels="{'region': 'primary', 'zone': 'east'}"
-${infra_hostname} openshift_hostname=${infra_hostname} openshift_node_labels="{'region': 'primary', 'zone': 'west'}"
+${master_hostname} openshift_ip=${master_ip} openshift_hostname=${master_hostname} openshift_node_labels="{'region': 'infra', 'zone': 'default'}" openshift_schedulable=true

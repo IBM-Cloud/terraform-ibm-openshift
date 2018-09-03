@@ -3,12 +3,10 @@
 resource "ibm_compute_vm_instance" "bastion" {
   os_reference_code         = "${var.vm-os-reference-code}"
   hostname                  = "${var.vm-hostname}-${var.random_id}"
-  domain                    = "${var.vm-domain}"
+  domain                    = "${var.vm_domain}"
   datacenter                = "${var.datacenter}"
   private_network_only      = "false"
-  network_speed             = 100
-  cores                     = 2
-  memory                    = 4096
+  flavor_key_name =  "${var.bastion_flavor}"
   local_disk                = true
   disks						          = [100,50]
   ssh_key_ids               = ["${var.ssh_key_id}"]
@@ -33,15 +31,10 @@ variable "vm-hostname" {
   default = "bastion-ose"
 }
 
-variable "vm-domain" {}
+variable "vm_domain" {}
 
-variable "vm-cores" {
-  default = 1
-}
+variable "bastion_flavor" {}
 
-variable "vm-memory" {
-  default = 4096
-}
 
 variable "vm-os-reference-code" {
   default = "REDHAT_7_64"
@@ -53,6 +46,10 @@ variable "public_vlan_id" {}
 
 output "bastion_ip_address" {
   value = "${ibm_compute_vm_instance.bastion.ipv4_address}"
+}
+
+output "bastion_private_ip" {
+  value = "${ibm_compute_vm_instance.bastion.ipv4_address_private}"
 }
 
 output "bastion_domain" {
