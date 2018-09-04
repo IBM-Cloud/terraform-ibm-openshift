@@ -17,41 +17,23 @@ Deployment of 'OpenShift Container Platform on IBM Cloud' is divided into separa
 
 | Phase |  |
 |----|-----|
-| Phase 1: Provision the infrastructure on IBM Cloud |  Use Terraform to provision the compute, storage, network, loadbalancers & IAM resources on IBM Cloud Infrastructure|
-| Phase 2: Deploy OpenShift Container Platform on IBM Cloud | Install OpenShift Container Platform which is done via Ansible playbooks - available in the [openshift-ansible](https://github.com/openshift/openshift-ansible) project. <br> During this phase the router and registry are deployed. |
+| Phase 1: Provision the infrastructure on IBM Cloud |  Use Terraform to provision the compute, storage, network & IAM resources on IBM Cloud Infrastructure|
+| Phase 2: Deploy OpenShift Container Platform on IBM Cloud | Install OpenShift Container Platform which is done via Ansible playbooks - available in the https://github.com/openshift/openshift-ansible project. <br> During this phase the router and registry are deployed. |
 | Phase 3: Post deployment activities |  Validate the deployment |
 
 ----
 
 # Phase 1: Provision Infrastructure 
 The following figure illustrates the deployment architecture for the 'OpenShift Container Platform on IBM Cloud'.
-![Infrastructure topology](./infra-diagram.png)
+![Infrastructure topology](./infra-diagram-2.png)
 
 Use the variables.tf file to configure the following: 
 
-## Variables
-
-|Variable Name|Description|Default Value|
-|-------------|-----------|-------------|
-|ibm_sl_username|User Name to login to IBM Cloud Infra (Softlayer)|-|
-|ibm_sl_api_key|API Key (or password) to access IBM Cloud Infra (Softlayer). You can run `bluemix cs locations` to see a list of all data centers in your region.|-|
-|rhn_username|Red Hat Network username with OpenShift subscription.|-|
-|rhn_password|Red Hat Network password with OpenShift subscription.|-|
-|datacenter|Data Center Location to deploy the OpenShift cluster.|mel01|
-|vlan_count       |Create a private & public VLAN, in your account, for deploying Red Hat OpenShift. Default '1'. Set to '0' if use existing vlans id and '1' to deploy new vlan|1|
-|subnet_size     |Subnet size for creating a new VLAN.|64|
-|private_vlanid|Existing private vlan ID.|-|
-|public_vlanid|Existing public vlan ID.|-|
-|infra_count|Number of Infra nodes for the cluster.|1|
-|app_count|Number of app nodes for the cluster. |1|
-|ssh_private_key|Path to SSH private key.|~/.ssh/id_rsa|
-|ssh_label|An identifying label to assign to the SSH key.|ssh_key_openshift|
-|ssh_public_key|Path to SSH public key.|~/.ssh/id_rsa.pub|
-|vm_domain|Domain Name for the network interface used by VMs in the cluster.|ibm.com|
-|bastion_flavor|Flavor used to create Bastion VM|B1_4X8X100|
-|app_lbass_name|Name of the local load balancer for app nodes|openshift-app|
-|infra_lbass_name|Name of the local load balancer for infra nodes|openshift-infra|
-
+* datacenter : dal05  (as an example)
+* domain : cloudapps.example.com
+* ssh_key & ssh_label
+* infra_count: number of infrastructure nodes
+* app_count: number of app nodes
 
 The infrastructure is provisioned using the terraform modules with the following configuration:
 
@@ -98,10 +80,14 @@ Nodes are VM_instances that serve a specific purpose for OpenShift Container Pla
 
 |ALB|DNS name  (Openshift DNS)|Assigned Instances|Port|
 |---|--------|------|-----|
-|infra_llb|openshift-app-XXXXX-XXXXX-mel01.lb.bluemix.net|infra-nodes <br> 1-3|-|
-|app_llb|openshift-app-XXXXX-XXXXX-mel01.lb.bluemix.net|app-nodes <br> 1-3|-|
+|master_llb|\<resourcegroupname\>.cloudapp.eg.com|master|8443|
+|node_llb|\<wildcardzone\>.cloudapp.eg.com|infra-nodes <br> 1-3|80 and 443|
 
-A publicly-accessible, fully qualified domain name is assigned to your load balancer service instance. You must use this domain name to access your applications hosted behind the load balancer service.
+* The *master_llb* utilizes the OpenShift Container Platform master API port for communication 
+* The *node_llb* uses the public subnets and maps to infrastructure nodes. 
+* The infrastructure nodes run the router pod (ingress controller) which then directs traffic directly from the outside world into pods when external routes are defined.
+* To avoid reconfiguring DNS every time a new route is created, an external wildcard DNSentry record must be configured pointing to the Router load balancer IP.
+    * For example, create a wildcard DNS entry for cloudapp.example.com that has a low time-to-live value (TTL) and points to the public IP address of the Router load balancer
 
 ## Security Group configurations
 The following security group configuration assumes:

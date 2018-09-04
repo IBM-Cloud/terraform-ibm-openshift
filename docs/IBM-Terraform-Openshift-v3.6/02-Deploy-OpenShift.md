@@ -18,7 +18,7 @@ Deployment of 'OpenShift Container Platform on IBM Cloud' is divided into separa
 
 | Phase |  |
 |----|-----|
-| Phase 1: Provision the infrastructure on IBM Cloud |  Use Terraform to provision the compute, storage, network, loadbalancers & IAM resources on IBM Cloud Infrastructure|
+| Phase 1: Provision the infrastructure on IBM Cloud |  Use Terraform to provision the compute, storage, network & IAM resources on IBM Cloud Infrastructure|
 | Phase 2: Deploy OpenShift Container Platform on IBM Cloud | Install OpenShift Container Platform which is done via Ansible playbooks - available in the https://github.com/openshift/openshift-ansible project. <br> During this phase the router and registry are deployed. |
 | Phase 3: Post deployment activities |  Validate the deployment |
 
@@ -48,11 +48,11 @@ Follow the steps described here (https://docs.openshift.com/container-platform/3
 Follow the steps described here (https://docs.openshift.com/container-platform/3.6/install_config/install/prerequisites.html#wildcard-dns-prereq)
 
 ## 2.2. Deploy OpenShift
-The Infra & App nodes are deployed in the Private VLAN, hence do not have access to the Internet.  The OpenShift Container Platform will be deployed using the disconnected & quick installation procedure described [here](https://docs.openshift.com/container-platform/3.6/install_config/install/disconnected_install.html).  
+The Master, Infra & App nodes are deployed in the Private VLAN, hence do not have access to the Internet.  The OpenShift Container Platform will be deployed using the disconnected & quick installation procedure described [here](https://docs.openshift.com/container-platform/3.6/install_config/install/disconnected_install.html).  
 
-The Bastion node & Master node is deployed on the Public VLAN, and has access to the Internet.  The Bastion node also has connectivity to the Private VLAN used by the Infra & App nodes.  Hence, the Bastion node is configured to download all the software images required to perform a disconnected installation of the OpenShift Container Platform on the Master, Infra & App nodes.
+The Bastion node is deployed on the Public VLAN, and has access to the Internet.  The Bastion node also has connectivity to the Private VLAN used by the Master, Infra & App nodes.  Hence, the Bastion node is configured to download all the software images required to perform a disconnected installation of the OpenShift Container Platform on the Master, Infra & App nodes.
 
-The Infra & App nodes are configured to use the Bastion node a local-repository to install the respective components.
+The Master, Infra & App nodes are configured to use the Bastion node a local-repository to install the respective components.
 
 2.2.1  Prepare the Bastion Server
 
