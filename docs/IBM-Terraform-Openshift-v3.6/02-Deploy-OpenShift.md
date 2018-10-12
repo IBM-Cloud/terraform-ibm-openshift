@@ -56,34 +56,21 @@ The Master, Infra & App nodes are configured to use the Bastion node a local-rep
 
 2.2.1  Prepare the Bastion Server
 
-1. Setup the RHEL subscription, for disconnected install of OpenShift from Bastion Server
+Setup the RHEL subscription, for disconnected install of OpenShift from Bastion Server.  Prepare the local-repo in the Bastion server, for installing OpenShift
 
    ```console
    # Prepare the bastion server
    $ make bastion
    ```
 
-1. Prepare the local-repo in the Bastion server, for installing OpenShift
+2.2.2  Install openshift
 
-   ```console
-   # Download software images & prepare the local repository
-   $ make local-repo
-   ```
-
-1. Prepare the Master, Infra & App nodes, before installing OpenShift
-
-   ```console
-   # Prepare all the nodes for openshift installation
-   $ make ose-nodes
-   ```
-
-1. Install OpenShift
+Prepare the Master, Infra & App nodes, before installing OpenShift. Install OpenShift
 
    ```console
    # Install OpenShift
    $ make openshift
    ```
-
 
 # Phase 3: Post Deployment activities
 

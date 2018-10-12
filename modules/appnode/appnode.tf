@@ -15,7 +15,7 @@ resource "ibm_compute_vm_instance" "appnode" {
   private_network_only      = "true"
   network_speed             = 100
   local_disk                = false
-  flavor_key_name           = "${var.flavor_key_name}"
+  flavor_key_name           = "${var.app_flavor}"
   disks                     = [50, 25, 25]
   ssh_key_ids               = ["${var.ssh_key_id}"]
   local_disk                = false
@@ -45,9 +45,7 @@ variable "vm-hostname" {
 
 variable "vm_domain" {}
 
-variable "flavor_key_name" {
-  default = "B1_4X8X100"
-}
+variable "app_flavor" {}
 
 variable "vm-os-reference-code" {
   default = "REDHAT_7_64"

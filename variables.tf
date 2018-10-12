@@ -1,5 +1,5 @@
 variable "datacenter" {
-  default = "mel01"
+  default = "dal05"
 }
 
 variable "infra_count" {
@@ -63,6 +63,18 @@ variable gw_count {
 }
 
 variable bastion_flavor {
+  default = "B1_4X8X100"
+}
+
+variable master_flavor {
+  default = "B1_4X8X100"
+}
+
+variable infra_flavor {
+  default = "B1_4X8X100"
+}
+
+variable app_flavor {
   default = "B1_4X8X100"
 }
 

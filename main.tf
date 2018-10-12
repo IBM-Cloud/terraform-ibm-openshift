@@ -39,6 +39,7 @@ module "masternode" {
   vm_domain           = "${var.vm_domain}"
   random_id           = "${random_id.ose_name.hex}"
   master_count        = "1"
+  master_flavor       = "${var.master_flavor}"
 }
 
 #####################################################
@@ -54,6 +55,7 @@ module "infranode" {
   ssh_key_id         = "${ibm_compute_ssh_key.ssh_key_openshift.id}"
   vm_domain          = "${var.vm_domain}"
   random_id          = "${random_id.ose_name.hex}"
+  infra_flavor       = "${var.infra_flavor}"
 }
 
 #####################################################
@@ -69,6 +71,7 @@ module "appnode" {
   ssh_key_id        = "${ibm_compute_ssh_key.ssh_key_openshift.id}"
   vm_domain         = "${var.vm_domain}"
   random_id         = "${random_id.ose_name.hex}"
+  app_flavor        = "${var.app_flavor}"
 }
 
 #####################################################
@@ -92,24 +95,24 @@ module "bastion" {
 # Create infra lbaas
 #####################################################
 module "lbaas_infra" {
-  source        = "modules/lbaas_infranode"
+  source           = "modules/lbaas_infranode"
   infra_lbass_name = "${var.infra_lbass_name}"
-  node_count    = "${var.infra_count}"
-  infra_private_ip     = "${module.infranode.infra_private_ip}"
-  subnet_id      = "${module.infranode.infra_subnet_id}"
-  random_id           = "${random_id.ose_name.hex}"
+  node_count       = "${var.infra_count}"
+  infra_private_ip = "${module.infranode.infra_private_ip}"
+  subnet_id        = "${module.infranode.infra_subnet_id}"
+  random_id        = "${random_id.ose_name.hex}"
 }
 
 #####################################################
 # Create app lbaas
 #####################################################
 module "lbaas_app" {
-  source        = "modules/lbaas_appnode"
+  source         = "modules/lbaas_appnode"
   app_lbass_name = "${var.app_lbass_name}"
-  node_count    = "${var.app_count}"
-  app_private_ip     = "${module.appnode.app_private_ip}"
+  node_count     = "${var.app_count}"
+  app_private_ip = "${module.appnode.app_private_ip}"
   subnet_id      = "${module.appnode.app_subnet_id}"
-  random_id           = "${random_id.ose_name.hex}"
+  random_id      = "${random_id.ose_name.hex}"
 }
 
 /*#####################################################
@@ -130,7 +133,7 @@ module "templates" {
   source             = "modules/templates"
   bastion_private_ip = "${module.bastion.bastion_private_ip}"
   master_private_ip  = "${module.masternode.master_private_ip}"
-  master_public_ip  = "${module.masternode.master_public_ip}"
+  master_public_ip   = "${module.masternode.master_public_ip}"
   infra_private_ip   = "${module.infranode.infra_private_ip}"
   app_private_ip     = "${module.appnode.app_private_ip}"
   master_host        = "${module.masternode.master_host}"

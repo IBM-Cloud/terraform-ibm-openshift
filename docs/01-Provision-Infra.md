@@ -37,7 +37,7 @@ Use the variables.tf file to configure the following:
 |ibm_sl_api_key|API Key (or password) to access IBM Cloud Infra (Softlayer). You can run `bluemix cs locations` to see a list of all data centers in your region.|-|
 |rhn_username|Red Hat Network username with OpenShift subscription.|-|
 |rhn_password|Red Hat Network password with OpenShift subscription.|-|
-|datacenter|Data Center Location to deploy the OpenShift cluster.|mel01|
+|datacenter|Data Center Location to deploy the OpenShift cluster.|dal05|
 |vlan_count       |Create a private & public VLAN, in your account, for deploying Red Hat OpenShift. Default '1'. Set to '0' if use existing vlans id and '1' to deploy new vlan|1|
 |subnet_size     |Subnet size for creating a new VLAN.|64|
 |private_vlanid|Existing private vlan ID.|-|
@@ -49,6 +49,9 @@ Use the variables.tf file to configure the following:
 |ssh_public_key|Path to SSH public key.|~/.ssh/id_rsa.pub|
 |vm_domain|Domain Name for the network interface used by VMs in the cluster.|ibm.com|
 |bastion_flavor|Flavor used to create Bastion VM|B1_4X8X100|
+|master_flavor|Flavor used to create Master node|B1_4X8X100|
+|infra_flavor|Flavor used to create Infra nodes|B1_4X8X100|
+|app_flavor|Flavor used to create app nodes|B1_4X8X100|
 |app_lbass_name|Name of the local load balancer for app nodes|openshift-app|
 |infra_lbass_name|Name of the local load balancer for infra nodes|openshift-infra|
 
@@ -90,16 +93,16 @@ Nodes are VM_instances that serve a specific purpose for OpenShift Container Pla
 |nodes | flavor | details | count |
 |------|--------|---------|-------|
 |Master Node | B1_4X8X100 | san disks: 100GB <ul><li> disk1 : 50 </li><li> disk2 : 25 </li><li>disk3 : 25 </li><ul> | master_count |
-| Infra Nodes | B1_2X4X100 | san disks: 100GB <ul><li> disk1 : 50 </li><li> disk2 : 25 </li><li>disk3 : 25 </li><ul> | infra_count | 
-| App Nodes | B1_2X4X100 | san disks: 100GB <ul><li> disk1 : 50 </li><li> disk2 : 25 </li><li>disk3 : 25 </li><ul> | app_count |
-| Bastion Nodes | B1_2X2X100 | <ul><li>disk : 100GB </li><li>disk : 50GB </li><ul> | 1 |
+| Infra Nodes | B1_4X8X100 | san disks: 100GB <ul><li> disk1 : 50 </li><li> disk2 : 25 </li><li>disk3 : 25 </li><ul> | infra_count | 
+| App Nodes | B1_4X8X100 | san disks: 100GB <ul><li> disk1 : 50 </li><li> disk2 : 25 </li><li>disk3 : 25 </li><ul> | app_count |
+| Bastion Nodes | B1_4X8X100 | <ul><li>disk : 100GB </li><li>disk : 50GB </li><ul> | 1 |
 
 ## Load balancer configurations
 
 |ALB|DNS name  (Openshift DNS)|Assigned Instances|Port|
 |---|--------|------|-----|
-|infra_llb|openshift-app-XXXXX-XXXXX-mel01.lb.bluemix.net|infra-nodes <br> 1-3|-|
-|app_llb|openshift-app-XXXXX-XXXXX-mel01.lb.bluemix.net|app-nodes <br> 1-3|-|
+|infra_llb|openshift-app-XXXXX-XXXXX-dal05.lb.bluemix.net|infra-nodes <br> 1-3|-|
+|app_llb|openshift-app-XXXXX-XXXXX-dal05.lb.bluemix.net|app-nodes <br> 1-3|-|
 
 A publicly-accessible, fully qualified domain name is assigned to your load balancer service instance. You must use this domain name to access your applications hosted behind the load balancer service.
 
