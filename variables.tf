@@ -22,9 +22,6 @@ variable "vm_domain" {
   default = "ibm.com"
 }
 
-variable "subnet_size" {
-  default     = "64"
-}
 
 variable "ibm_sl_username"{
 }

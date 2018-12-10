@@ -8,7 +8,6 @@ resource "ibm_network_vlan" "openshift_vlan_private" {
   name            = "openshift-prv-vlan"
   datacenter      = "${var.datacenter}"
   type            = "PRIVATE"
-  subnet_size     = "${var.subnet_size}"
 }
 
 resource "ibm_network_vlan" "openshift_vlan_public" {
@@ -16,7 +15,6 @@ resource "ibm_network_vlan" "openshift_vlan_public" {
   name            = "openshit-pub-vlan"
   datacenter      = "${var.datacenter}"
   type            = "PUBLIC"
-  subnet_size     = "${var.subnet_size}"
 }
 
 ##################################################
@@ -24,8 +22,6 @@ resource "ibm_network_vlan" "openshift_vlan_public" {
 ##################################################
 
 variable "datacenter" {}
-
-variable "subnet_size" {}
 
 variable "vlan_count" {}
 

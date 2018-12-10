@@ -16,7 +16,6 @@ module "network" {
   source      = "modules/network"
   vlan_count  = "${var.vlan_count}"
   datacenter  = "${var.datacenter}"
-  subnet_size = "${var.subnet_size}"
 }
 
 module "sg" {

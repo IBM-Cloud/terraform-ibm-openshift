@@ -39,7 +39,6 @@ Use the variables.tf file to configure the following:
 |rhn_password|Red Hat Network password with OpenShift subscription.|-|
 |datacenter|Data Center Location to deploy the OpenShift cluster.|dal05|
 |vlan_count       |Create a private & public VLAN, in your account, for deploying Red Hat OpenShift. Default '1'. Set to '0' if use existing vlans id and '1' to deploy new vlan|1|
-|subnet_size     |Subnet size for creating a new VLAN.|64|
 |private_vlanid|Existing private vlan ID.|-|
 |public_vlanid|Existing public vlan ID.|-|
 |infra_count|Number of Infra nodes for the cluster.|1|
