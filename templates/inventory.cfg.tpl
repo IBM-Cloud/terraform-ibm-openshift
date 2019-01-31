@@ -27,7 +27,7 @@ openshift_enable_docker_excluder=false
 # We need a wildcard DNS setup for our public access to services, fortunately
 # we can use the superb xip.io to get one for free.
 openshift_public_hostname=${master_hostname}
-openshift_master_default_subdomain=openshit.ibm.com
+openshift_master_default_subdomain=openshift.ibm.com
 
 # Use an htpasswd file as the indentity provider.
 openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]

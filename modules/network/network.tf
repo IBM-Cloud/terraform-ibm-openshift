@@ -12,7 +12,7 @@ resource "ibm_network_vlan" "openshift_vlan_private" {
 
 resource "ibm_network_vlan" "openshift_vlan_public" {
   count = "${var.vlan_count}"
-  name            = "openshit-pub-vlan"
+  name            = "openshift-pub-vlan"
   datacenter      = "${var.datacenter}"
   type            = "PUBLIC"
 }
