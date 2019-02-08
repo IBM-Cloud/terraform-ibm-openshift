@@ -1,5 +1,5 @@
 variable "datacenter" {
-  default = "dal05"
+  default = "dal12"
 }
 
 variable "infra_count" {
