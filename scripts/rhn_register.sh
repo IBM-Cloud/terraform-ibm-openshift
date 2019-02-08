@@ -9,12 +9,13 @@ rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
 
 username=$1
 password=$2
+poolID=$3
 
 subscription-manager register --serverurl subscription.rhsm.redhat.com:443/subscription --baseurl cdn.redhat.com --username $username --password $password
 
 sed -i 's/%(ca_cert_dir)skatello-server-ca.pem/%(ca_cert_dir)sredhat-uep.pem/g' /etc/rhsm/rhsm.conf
 
-subscription-manager attach --pool=8a85f98c604ec2e20160514b45352fb0 --pool=8a85f98b651a7ece01653dd87db860a5
+subscription-manager attach --pool=$poolID
 
 subscription-manager repos --disable="*"
 

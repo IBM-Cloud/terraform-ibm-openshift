@@ -30,14 +30,21 @@ variable "ibm_sl_username"{
 variable "ibm_sl_api_key"{
 }
 
-variable "private_ssh_key"{
-  default     = "~/.ssh/id_rsa"
-}
-
 variable "rhn_username"{
+  default = ""
 }
 
 variable "rhn_password"{
+  default = ""
+}
+
+variable "pool_id"{
+  default = ""
+}
+
+
+variable "private_ssh_key"{
+  default     = "~/.ssh/id_rsa"
 }
 
 variable vlan_count {

@@ -4,9 +4,12 @@ infrastructure:
 	terraform init && terraform get && terraform apply --target=module.lbaas_app --target=module.lbaas_infra --parallelism=1
 
 bastion:
+	@[ "${rhn_username}" ] || ( echo ">> rhn_username is not set"; exit 1 )
+	@[ "${rhn_password}" ] || ( echo ">> rhn_password is not set"; exit 1 )
+	@[ "${pool_id}" ] || ( echo ">> pool_id is not set"; exit 1 )
 
 	# Register the System with redhat
-	terraform init && terraform get && terraform apply --target=module.setup_bastion
+	terraform init && terraform get && terraform apply --target=module.setup_bastion -var 'rhn_username=${rhn_username}' -var 'rhn_password=${rhn_password}'  -var 'pool_id=${pool_id}'
 	
 	# Install all the rpms and docker images required by the openshift
 	cat ./scripts/setup_bastion_http.sh | ssh -o TCPKeepAlive=yes -o ServerAliveInterval=50 -o StrictHostKeyChecking=no -A root@$$(terraform output bastion_public_ip)

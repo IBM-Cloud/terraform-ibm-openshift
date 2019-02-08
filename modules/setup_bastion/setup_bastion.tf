@@ -16,7 +16,7 @@ resource "null_resource" "setup_bastion" {
     provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/scripts/*",
-      "/tmp/scripts/rhn_register.sh ${var.rhn_username} ${var.rhn_password}",
+      "/tmp/scripts/rhn_register.sh ${var.rhn_username} ${var.rhn_password} ${var.pool_id}",
 
     ]
   
@@ -34,13 +34,14 @@ variable "private_ssh_key" {
 
 }
 
-
-variable "rhn_username" {
-
-}
-
-
-variable "rhn_password" {
+variable "rhn_username"{
 
 }
 
+variable "rhn_password"{
+
+}
+
+variable "pool_id"{
+
+}

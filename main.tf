@@ -13,9 +13,9 @@ resource "random_id" "ose_name" {
 }
 
 module "network" {
-  source      = "modules/network"
-  vlan_count  = "${var.vlan_count}"
-  datacenter  = "${var.datacenter}"
+  source     = "modules/network"
+  vlan_count = "${var.vlan_count}"
+  datacenter = "${var.datacenter}"
 }
 
 module "sg" {
@@ -150,6 +150,7 @@ module "setup_bastion" {
   private_ssh_key    = "${var.private_ssh_key}"
   rhn_username       = "${var.rhn_username}"
   rhn_password       = "${var.rhn_password}"
+  pool_id            = "${var.pool_id}"
 }
 
 module "pre_install" {

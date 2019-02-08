@@ -103,7 +103,7 @@ On successful completion, you will see the following message
 * Install the repos and images by running :
 
   ``` console
-    $ make bastion
+    $ make rhn_username=<rhn_username> rhn_password=<rhn_password> pool_id=<pool_id> bastion
   ```
 
 This step includes the following: 
