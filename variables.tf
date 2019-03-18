@@ -61,11 +61,6 @@ variable public_vlanid {
   default = "CHANGE ME if vlan_count = 0"
 }
 
-variable gw_count {
-  description = "Set to 0 if using existing and 1 if deploying a new Vyatta Gateway"
-  default = "0"
-}
-
 variable bastion_flavor {
   default = "B1_4X8X100"
 }
