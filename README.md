@@ -1,6 +1,6 @@
 # terraform-ibm-openshift
 
-Use this project to set up Red Hat® OpenShift Container Platform 3.9 on IBM Cloud, using Terraform.
+Use this project to set up Red Hat® OpenShift Container Platform 3.10 on IBM Cloud, using Terraform.
 
 ## Overview
 Deployment of 'OpenShift Container Platform on IBM Cloud' is divided into separate steps.
@@ -84,32 +84,27 @@ In this version, the following infrastructure elements are provisioned for OpenS
 * Infra node
 * App node
 * Security groups for these nodes
-* Local load balancers for Infra and App nodes
+
 
 On successful completion, you will see the following message
    ```
    ...
 
-   Apply complete! Resources: 47 added, 0 changed, 0 destroyed.
-   module.lbass_infra.ibm_lbass.infra_lbass: Still Creating....
-   module.lbass_app.ibm_lbass.app_lbass: Still Creating....
-   .....
-   Apply complete! Resources: 4 added, 0 changed, 0 destroyed.
-
+   Apply complete! Resources: 71 added, 0 changed, 0 destroyed.
+   
    ```
 
-### 3. Setup Red Hat® Repositories and images for the disconnected installation
+### 3. Setup Red Hat® Repositories and images
 
 * Install the repos and images by running :
 
   ``` console
-    $ make rhn_username=<rhn_username> rhn_password=<rhn_password> pool_id=<pool_id> bastion
+    $ make rhn_username=<rhn_username> rhn_password=<rhn_password> pool_id=<pool_id> rhnregister
   ```
 
 This step includes the following: 
- * Register the Bastion node to the Red Hat® Network, 
- * Prepare the Bastion node as the local repository (with rpms & container images), to install OpenShift in the rest of the nodes
-
+ * Register the nodes to the Red Hat® Network, 
+ 
 ### 4. Deploy OpenShift Container Platform on IBM Cloud Infrastructure
 
 To install OpenShift on the cluster, just run:
@@ -118,8 +113,8 @@ To install OpenShift on the cluster, just run:
    ```
 
 This step includes the following: 
-* Prepare the Master, Infra & App nodes before installing OpenShift
-* Finally, install OpenShift Container Platform v3.9 using the disconnected & advanced installation procedure described [here]( https://docs.openshift.com/container-platform/3.9/install_config/install/disconnected_install.html). 
+* Prepare the Master, Infra and App nodes before installing OpenShift
+* Finally, install OpenShift Container Platform v3.10 using installation procedure described [here]( https://docs.openshift.com/container-platform/3.10/install/running_install.html). 
 
 
 Once the setup is complete, just run:
@@ -165,10 +160,8 @@ To open a browser to admin console, use the following credentials to login:
 
 * Deploy the app 
 
-    Infra and App nodes are on private network push an image to internal registry to access the image follow the procedure [here](https://docs.openshift.com/container-platform/3.9/install_config/registry/accessing_registry.html)
-
   ``` console
-   $ oc new-app --name=nginx --docker-image=<regisrty-ip>:<port>/test/nginx
+   $ oc new-app --name=nginx --docker-image=bitnami/nginx
 
   ```
 * Expose the service 
@@ -184,14 +177,24 @@ To open a browser to admin console, use the following credentials to login:
 
   ```
 
-  Now login into softlayer console define front-end application ports (protocols) and map them to respective ports (protocols) on the back-end application servers in App local loadbalancer. The fully qualified domain name assigned to your load balancer service instance and the front-end application ports are exposed to the external world. The incoming user requests are received on these ports. 
-
   Access the deployed application at 
-  ```
-  http://${terraform output app_lbass_url}:${front-end-port}
+
+  ``` console
+   $ oc get routes
 
   ```
 
+  ```
+  {HOST/PORT} get the value from above command
+  Access the deployed application at http${HOST/PORT}
+
+  ```
+
+## Optional Commands
+
+Run `make nodeprivate` to block all incoming traffic on public interface, to the infra nodes and app nodes
+
+Run `make nodepublic` to allow all incoming traffic on public interface, to the infra nodes and app nodes
 
 ## Destroy the OpenShift cluster
 
@@ -212,11 +215,11 @@ Bring down the openshift cluster by running following
   
 * https://github.com/ibm-cloud/terraform-provider-ibm - Terraform Provider for IBM Cloud  
   
-* [Deploying OpenShift Container Platform 3.9](https://docs.openshift.com/container-platform/3.9/install_config/install/advanced_install.html)
+* [Deploying OpenShift Container Platform 3.10](https://docs.openshift.com/container-platform/3.10/install/index.html)
 
-* [To create more users and provide admin privilege](https://docs.openshift.com/container-platform/3.9/install_config/configuring_authentication.html)
+* [To create more users and provide admin privilege](https://docs.openshift.com/container-platform/3.10/install_config/configuring_authentication.html)
 
-* [Accessing openshift registry](https://docs.openshift.com/container-platform/3.9/install_config/registry/index.html#install-config-registry-overview)
+* [Accessing openshift registry](https://docs.openshift.com/container-platform/3.10/install_config/registry/index.html)
 
-* [Refer Openshift Router](https://docs.openshift.com/container-platform/3.9/install_config/router/index.html#install-config-router-overview)
+* [Refer Openshift Router](https://docs.openshift.com/container-platform/3.10/install_config/router/index.html)
 

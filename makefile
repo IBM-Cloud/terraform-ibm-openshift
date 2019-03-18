@@ -1,34 +1,27 @@
 infrastructure:
 	# Get the modules, create the infrastructure.
-	terraform init && terraform get && terraform apply --target=ibm_compute_ssh_key.ssh_key_openshift --target=random_id.ose_name --target=module.network --target=module.sg --target=module.masternode --target=module.infranode --target=module.appnode --target=module.templates
-	terraform init && terraform get && terraform apply --target=module.lbaas_app --target=module.lbaas_infra --parallelism=1
+	terraform init && terraform get && terraform apply --target=ibm_compute_ssh_key.ssh_key_openshift --target=random_id.ose_name --target=module.network --target=module.publicsg --target=module.privatesg  --target=module.bastion --target=module.masternode --target=module.appnode --target=module.infranode --target=module.inventory --auto-approve
+	
 
-bastion:
+rhnregister:	
 	@[ "${rhn_username}" ] || ( echo ">> rhn_username is not set"; exit 1 )
 	@[ "${rhn_password}" ] || ( echo ">> rhn_password is not set"; exit 1 )
 	@[ "${pool_id}" ] || ( echo ">> pool_id is not set"; exit 1 )
 
+
 	# Register the System with redhat
-	terraform init && terraform get && terraform apply --target=module.setup_bastion -var 'rhn_username=${rhn_username}' -var 'rhn_password=${rhn_password}'  -var 'pool_id=${pool_id}'
-	
-	# Install all the rpms and docker images required by the openshift
-	cat ./scripts/setup_bastion_http.sh | ssh -o TCPKeepAlive=yes -o ServerAliveInterval=50 -o StrictHostKeyChecking=no -A root@$$(terraform output bastion_public_ip)
-	
+	terraform init && terraform get && terraform apply --target=module.rhn_register --auto-approve -var 'rhn_username=${rhn_username}' -var 'rhn_password=${rhn_password}' -var 'pool_id=${pool_id}'
 
-openshift:
-	
+openshift:	
 	# Get the modules, for the pre install steps.
-	terraform init && terraform get && terraform apply --target=module.pre_install
+	terraform init && terraform get && terraform apply --target=module.openshift --auto-approve 
 	
-
-	# Install openshift
-	scp -o StrictHostKeyChecking=no ./templates/inventory.cfg root@$$(terraform output bastion_public_ip):/root/
-	ssh -o TCPKeepAlive=yes -o ServerAliveInterval=50 -o StrictHostKeyChecking=no root@$$(terraform output bastion_public_ip) 'ansible-playbook -i /root/inventory.cfg /usr/share/ansible/openshift-ansible/playbooks/prerequisites.yml'
-	ssh -o TCPKeepAlive=yes -o ServerAliveInterval=50 -o StrictHostKeyChecking=no -A root@$$(terraform output bastion_public_ip) 'ansible-playbook -i /root/inventory.cfg /usr/share/ansible/openshift-ansible/playbooks/deploy_cluster.yml'
-	
-	# Get the modules, for the pre install steps.
-	terraform init && terraform get && terraform apply --target=module.post_install
-
 destroy:
-	terraform init && terraform get && terraform destroy --target=module.lbaas_app --target=module.lbaas_infra --parallelism=1
-	terraform init && terraform get && terraform destroy
+	# terraform init && terraform get && terraform destroy --target=module.loadbalancer --parallelism=1 --auto-approve 
+	terraform init && terraform get && terraform destroy --auto-approve 
+
+nodeprivate:
+	terraform init && terraform get && terraform destroy --auto-approve --target=module.publicsg.ibm_security_group_rule.openshift-node-ingress_rule1 --target=module.publicsg.ibm_security_group_rule.openshift-node-ingress_rule2 --target=module.publicsg.ibm_security_group_rule.openshift-node-ingress_rule3 --target=module.publicsg.ibm_security_group_rule.openshift-node-ingress_rule4 --target=module.publicsg.ibm_security_group_rule.openshift-node-ingress_rule5 --target=module.publicsg.ibm_security_group_rule.openshift-node-ingress_rule6 --target=module.publicsg.ibm_security_group_rule.openshift-node-ingress_rule7 --target=module.publicsg.ibm_security_group_rule.openshift-node-ingress_rule8 
+
+nodepublic:
+	terraform init && terraform get && terraform apply --auto-approve --target=module.publicsg.ibm_security_group_rule.openshift-node-ingress_rule1 --target=module.publicsg.ibm_security_group_rule.openshift-node-ingress_rule2 --target=module.publicsg.ibm_security_group_rule.openshift-node-ingress_rule3 --target=module.publicsg.ibm_security_group_rule.openshift-node-ingress_rule4 --target=module.publicsg.ibm_security_group_rule.openshift-node-ingress_rule5 --target=module.publicsg.ibm_security_group_rule.openshift-node-ingress_rule6 --target=module.publicsg.ibm_security_group_rule.openshift-node-ingress_rule7 --target=module.publicsg.ibm_security_group_rule.openshift-node-ingress_rule8 
