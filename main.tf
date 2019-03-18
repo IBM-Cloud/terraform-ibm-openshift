@@ -114,20 +114,6 @@ module "lbaas_app" {
   random_id      = "${random_id.ose_name.hex}"
 }
 
-/*#####################################################
-# Create gateway
-#####################################################
-module "gateway" {
-  gw_count        = "${var.gw_count}"
-  source          = "modules/gateway"
-  datacenter      = "${var.datacenter}"
-  ssh_key_id      = "${ibm_compute_ssh_key.ssh_key_openshift.id}"
-  vm_domain       = "${var.vm_domain}"
-  private_vlan_id = "${var.vlan_count == "1" ? "${join("", module.network.openshift_private_vlan_id)}" : var.private_vlanid}"
-  public_vlan_id  = "${var.vlan_count == "1" ? "${join("", module.network.openshift_public_vlan_id)}" : var.public_vlanid}"
-  random_id       = "${random_id.ose_name.hex}"
-}*/
-
 module "templates" {
   source             = "modules/templates"
   bastion_private_ip = "${module.bastion.bastion_private_ip}"
