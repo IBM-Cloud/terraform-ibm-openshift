@@ -204,7 +204,7 @@ Bring down the openshift cluster by running following
 
 * [To create more users and provide admin privilege](https://docs.openshift.com/container-platform/3.9/install_config/configuring_authentication.html)
 
-* [Accessing openshift registry](https://docs.openshift.com/container-platform/3.9/install_config/registry/index.html#install-config-registry-overview)
+* [Accessing openshift registry](https://docs.openshift.com/container-platform/3.10/install_config/registry/index.html)
 
 * [Refer Openshift Router](https://docs.openshift.com/container-platform/3.9/install_config/router/index.html#install-config-router-overview)
 

@@ -17,7 +17,7 @@ Deployment of 'OpenShift Container Platform on IBM Cloud' is divided into separa
 
 | Phase |  |
 |----|-----|
-| Phase 1: Provision the infrastructure on IBM Cloud |  Use Terraform to provision the compute, storage & network on IBM Cloud Infrastructure|
+| Phase 1: Provision the infrastructure on IBM Cloud |  Use Terraform to provision the compute, storage, network, loadbalancers & IAM resources on IBM Cloud Infrastructure|
 | Phase 2: Deploy OpenShift Container Platform on IBM Cloud | Install OpenShift Container Platform which is done via Ansible playbooks - available in the [openshift-ansible](https://github.com/openshift/openshift-ansible) project. <br> During this phase the router and registry are deployed. |
 | Phase 3: Post deployment activities |  Validate the deployment |
 
@@ -48,10 +48,12 @@ Use the variables.tf file to configure the following:
 |ssh_label|An identifying label to assign to the SSH key.|ssh_key_openshift|
 |ssh_public_key|Path to SSH public key.|~/.ssh/id_rsa.pub|
 |vm_domain|Domain Name for the network interface used by VMs in the cluster.|ibm.com|
-|bastion_flavor|Flavor used to create Bastion VM|B1_4X16X100|
-|master_flavor|Flavor used to create Master node|B1_4X16X100|
-|infra_flavor|Flavor used to create Infra nodes|B1_4X16X100|
-|app_flavor|Flavor used to create app nodes|B1_4X16X100|
+|bastion_flavor|Flavor used to create Bastion VM|B1_4X8X100|
+|master_flavor|Flavor used to create Master node|B1_4X8X100|
+|infra_flavor|Flavor used to create Infra nodes|B1_4X8X100|
+|app_flavor|Flavor used to create app nodes|B1_4X8X100|
+|app_lbass_name|Name of the local load balancer for app nodes|openshift-app|
+|infra_lbass_name|Name of the local load balancer for infra nodes|openshift-infra|
 
 
 The infrastructure is provisioned using the terraform modules with the following configuration:
@@ -95,34 +97,42 @@ Nodes are VM_instances that serve a specific purpose for OpenShift Container Pla
 | App Nodes | B1_4X8X100 | san disks: 100GB <ul><li> disk1 : 50 </li><li> disk2 : 25 </li><li>disk3 : 25 </li><ul> | app_count |
 | Bastion Nodes | B1_4X8X100 | <ul><li>disk : 100GB </li><li>disk : 50GB </li><ul> | 1 |
 
+## Load balancer configurations
+
+|ALB|DNS name  (Openshift DNS)|Assigned Instances|Port|
+|---|--------|------|-----|
+|infra_llb|openshift-app-XXXXX-XXXXX-dal05.lb.bluemix.net|infra-nodes <br> 1-3|-|
+|app_llb|openshift-app-XXXXX-XXXXX-dal05.lb.bluemix.net|app-nodes <br> 1-3|-|
+
+A publicly-accessible, fully qualified domain name is assigned to your load balancer service instance. You must use this domain name to access your applications hosted behind the load balancer service.
 
 ## Security Group configurations
 The following security group configuration assumes:
 * All public traffic flow through the Internet Gateway
 * The Bastion server provides a secure way to limit SSH access to the environment. 
 * The Bastion server has connectivity with both the Public VLAN & Private VLAN.
-* All the OpenShift nodes (Master, Infra & App nodes) are connected with both the Public VLAN & Private VLAN.
+* All the OpenShift nodes (Master, Infra & App nodes) are connected only to the Private VLAN.
 
 |Group         |VLAN    |        |             |From     |To        |
 |:-------------|:------:|:-------|:------------|:-------:|:--------:|
 |ose_bastion_sg|Public  |Inbound | 22 / TCP    |Internet Gateway| - |
 |ose_bastion_sg|Private |Outbound| All         | -       |All       |
 |              |        |        |             |         |          |
-|ose_master_sg |Private/Public |Inbound | 443 / TCP   |Internet Gateway| - |
-|ose_master_sg |Private/Public  |Inbound | 80 / TCP    |Internet Gateway| - |
-|ose_master_sg |Private/Public  |Inbound | 22 / TCP    |ose_bastion_sg | - |
-|ose_master_sg |Private/Public  |Inbound | 443 / TCP   |All <br> (ose_master_sg & ose_node_sg) | - |
-|ose_master_sg |Private/Public  |Inbound | 8053 / TCP  |All <br> (ose_node_sg) | - |
-|ose_master_sg |Private/Public  |Inbound | 8053 / UDP  |All <br> (ose_node_sg) | - |
-|ose_master_sg |Private/Public  |Outbound|  All        | -       | All      |
-|ose_master_sg <br> (for etcd) |Private/Public  |Inbound | 2379 / TCP | All <br> (ose-master-sg) | - |
-|ose_master_sg <br> (for etcd) |Private/Public  |Inbound | 2380 / TCP | All <br> (ose-master-sg) | - |
+|ose_master_sg |Private |Inbound | 443 / TCP   |Internet Gateway| - |
+|ose_master_sg |Private |Inbound | 80 / TCP    |Internet Gateway| - |
+|ose_master_sg |Private |Inbound | 22 / TCP    |ose_bastion_sg | - |
+|ose_master_sg |Private |Inbound | 443 / TCP   |All <br> (ose_master_sg & ose_node_sg) | - |
+|ose_master_sg |Private |Inbound | 8053 / TCP  |All <br> (ose_node_sg) | - |
+|ose_master_sg |Private |Inbound | 8053 / UDP  |All <br> (ose_node_sg) | - |
+|ose_master_sg |Private |Outbound|  All        | -       | All      |
+|ose_master_sg <br> (for etcd) |Private |Inbound | 2379 / TCP | All <br> (ose-master-sg) | - |
+|ose_master_sg <br> (for etcd) |Private |Inbound | 2380 / TCP | All <br> (ose-master-sg) | - |
 |              |        |        |             |         |          |
-| ose_node_sg  |Private/Public  |Inbound | 443 / TCP   |All <br> (ose_bastion_sg) | - |
-| ose_node_sg  |Private/Public  |Inbound | 22 / TCP    |All <br> (ose_bastion_sg) | - |
-| ose_node_sg  |Private/Public  |Inbound | 10250 / TCP |All <br> (ose_master_sg & ose_node_sg) | - |
-| ose_node_sg  |Private/Public  |Inbound | 4789 / UDP  |All <br> (ose_node_sg) | - |
-| ose_node_sg  |Private/Public  |Outbound| All         | -       |      All |
+| ose_node_sg  |Private |Inbound | 443 / TCP   |All <br> (ose_bastion_sg) | - |
+| ose_node_sg  |Private |Inbound | 22 / TCP    |All <br> (ose_bastion_sg) | - |
+| ose_node_sg  |Private |Inbound | 10250 / TCP |All <br> (ose_master_sg & ose_node_sg) | - |
+| ose_node_sg  |Private |Inbound | 4789 / UDP  |All <br> (ose_node_sg) | - |
+| ose_node_sg  |Private |Outbound| All         | -       |      All |
 |              |        |        |             |         |          |
 
 ## DNS Configuration
@@ -136,8 +146,8 @@ OpenShift Compute Platform requires a fully functional DNS server, and is proper
 |Software|Version|
 |-------|--------|
 |Red Hat® Enterprise Linux 7.4 x86_64| kernel-3.10.0.x|
-|Atomic-OpenShift <br>{master/clients/node/sdn-ovs/utils} | 3.10.x.x |
-|Docker|1.13.x|
+|Atomic-OpenShift <br>{master/clients/node/sdn-ovs/utils} | 3.6.x.x |
+|Docker|1.12.x|
 |Ansible|2.3.2.x|
 
 ***Required Channels***
@@ -147,7 +157,7 @@ A subscription to the following channels is required in order to deploy this ref
 |Channel|Repository Name|
 |-------|---------------|
 |Red Hat® Enterprise Linux 7 Server (RPMs)|rhel-7-server-rpms|
-|Red Hat® OpenShift Enterprise 3.10 (RPMs)|rhel-7-server-ose-3.10-rpms|
+|Red Hat® OpenShift Enterprise 3.6 (RPMs)|rhel-7-server-ose-3.6-rpms|
 |Red Hat® Enterprise Linux 7 Server - Extras (RPMs)|rhel-7-server-extras-rpms|
 |Red Hat® Enterprise Linux 7 Server - Fast Datapath (RPMs) |rhel-7-fast-datapath-rpms|
 
