@@ -90,7 +90,7 @@ On successful completion, you will see the following message
    ```
    ...
 
-   Apply complete! Resources: 71 added, 0 changed, 0 destroyed.
+   Apply complete! Resources: 63 added, 0 changed, 0 destroyed.
    
    ```
 
