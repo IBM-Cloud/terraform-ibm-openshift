@@ -43,6 +43,18 @@ variable "master_private_ssh_key" {
 
 }
 
+variable "storage_count"  {
+}
+
+variable "storage_ip_address" {
+  type = "list"
+}
+
+
+variable "storage_private_ssh_key" {
+
+}
+
 variable "rhn_username"{
 
 }

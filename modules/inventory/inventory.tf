@@ -28,10 +28,19 @@ data "template_file" "compute_block" {
   }
 }
 
+data "template_file" "gluster_block" {
+  count = "${var.storage_node_count}"
+  template = "$${hostname} glusterfs_ip=$${hostip} glusterfs_devices='[ \"/dev/dm-0\", \"/dev/dm-1\", \"/dev/dm-2\"]' openshift_node_group_name='node-config-compute'"
+  vars {
+   hostname = "${element(var.storage_host, count.index)}.${var.domain}"
+   hostip = "${element(var.storage_private_ip, count.index)}"
+  }
+}
+
 
 # Create the new Inventory file with master node info.
 data "template_file" "ose_inventory_new" {
-  template = "${file("${path.cwd}/templates/inventory.cfg.tpl")}"
+  template = "${var.storage_node_count == "0" ? "${file("${path.cwd}/templates/inventorywithoutgluster.cfg.tpl")}" : "${file("${path.cwd}/templates/inventory.cfg.tpl")}"}"
   vars {
     master_hostname = "${element(var.master_host, 0)}.${var.domain}"
     infra_hostname = "${element(var.infra_host, 0)}.${var.domain}"
@@ -40,6 +49,7 @@ data "template_file" "ose_inventory_new" {
     master_block    = "${join("\n", data.template_file.master_block.*.rendered)}"
     compute_block   =  "${join("\n", data.template_file.compute_block.*.rendered)}"
     infra_block     =  "${join("\n", data.template_file.infra_block.*.rendered)}"
+    gluster_block   =  "${join("\n", data.template_file.gluster_block.*.rendered)}"
   }
 }
 
@@ -94,10 +104,19 @@ data "template_file" "infra_host_file_template" {
   }
 }
 
+data "template_file" "storage_host_file_template" {
+  count = "${var.storage_node_count}"
+  template = "$${storage_ip} $${storage_hostname} $${storage_hostname_domain} "
+  vars {
+    storage_ip              = "${element(var.storage_private_ip, count.index)}"
+    storage_hostname        = "${element(var.storage_host, count.index)}"
+    storage_hostname_domain = "${element(var.storage_host, count.index)}.${var.domain}"
+  }
+}
 
 # Create a installer config file for openshift installation
 resource "local_file" "host_file_render" {
-  content     = "${join("\n", concat(data.template_file.master_host_file_template.*.rendered,data.template_file.infra_host_file_template.*.rendered,data.template_file.app_host_file_template.*.rendered,data.template_file.master_public_host_file_template.*.rendered))}"
+  content     = "${join("\n", concat(data.template_file.master_host_file_template.*.rendered,data.template_file.infra_host_file_template.*.rendered,data.template_file.app_host_file_template.*.rendered,data.template_file.master_public_host_file_template.*.rendered,data.template_file.storage_host_file_template.*.rendered))}"
   filename    = "${path.cwd}/inventory_repo/hosts"
 }
 

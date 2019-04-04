@@ -1,4 +1,7 @@
-10.72.44.47 IBM-OCP-93735f7b3d-master-0 IBM-OCP-93735f7b3d-master-0.IBM-OpenShift.cloud 
-10.72.44.52 IBM-OCP-93735f7b3d-infra-0 IBM-OCP-93735f7b3d-infra-0.IBM-OpenShift.cloud 
-10.72.44.54 IBM-OCP-93735f7b3d-app-0 IBM-OCP-93735f7b3d-app-0.IBM-OpenShift.cloud 
-158.176.91.197 IBM-OCP-93735f7b3d-master-0 IBM-OCP-93735f7b3d-master-0.IBM-OpenShift.cloud 
+10.72.95.25 IBM-OCP-edf2f35682-master-0 IBM-OCP-edf2f35682-master-0.IBM-OpenShift.cloud 
+10.72.95.6 IBM-OCP-edf2f35682-infra-0 IBM-OCP-edf2f35682-infra-0.IBM-OpenShift.cloud 
+10.72.95.2 IBM-OCP-edf2f35682-app-0 IBM-OCP-edf2f35682-app-0.IBM-OpenShift.cloud 
+158.176.82.220 IBM-OCP-edf2f35682-master-0 IBM-OCP-edf2f35682-master-0.IBM-OpenShift.cloud 
+10.72.95.45 IBM-OCP-edf2f35682-storage-0 IBM-OCP-edf2f35682-storage-0.IBM-OpenShift.cloud 
+10.72.95.31 IBM-OCP-edf2f35682-storage-1 IBM-OCP-edf2f35682-storage-1.IBM-OpenShift.cloud 
+10.72.95.29 IBM-OCP-edf2f35682-storage-2 IBM-OCP-edf2f35682-storage-2.IBM-OpenShift.cloud 

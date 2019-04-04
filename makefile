@@ -1,7 +1,9 @@
 infrastructure:
 	# Get the modules, create the infrastructure.
-	terraform init && terraform get && terraform apply --target=ibm_compute_ssh_key.ssh_key_openshift --target=random_id.ose_name --target=module.network --target=module.publicsg --target=module.privatesg  --target=module.bastion --target=module.masternode --target=module.appnode --target=module.infranode --target=module.inventory --auto-approve
+	terraform init && terraform get && terraform apply --target=ibm_compute_ssh_key.ssh_key_openshift --target=random_id.ose_name --target=module.network --target=module.publicsg --target=module.privatesg --target=module.bastion --target=module.masternode --target=module.appnode --target=module.infranode --auto-approve
 	
+	terraform init && terraform get && terraform apply --target=module.storagenode --target=module.inventory --auto-approve --parallelism=1
+
 
 rhnregister:	
 	@[ "${rhn_username}" ] || ( echo ">> rhn_username is not set"; exit 1 )
@@ -14,7 +16,7 @@ rhnregister:
 
 openshift:	
 	# Get the modules, for the pre install steps.
-	terraform init && terraform get && terraform apply --target=module.openshift --auto-approve 
+	terraform init && terraform get && terraform apply --target=module.openshift --auto-approve
 	
 destroy:
 	# terraform init && terraform get && terraform destroy --target=module.loadbalancer --parallelism=1 --auto-approve 

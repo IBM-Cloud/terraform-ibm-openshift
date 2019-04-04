@@ -20,6 +20,3 @@ output "infra_host" {
   value = "${ibm_compute_vm_instance.infranode.*.hostname}"
 }
 
-output "infra_subnet_id" {
-  value = "${ibm_compute_vm_instance.infranode.0.private_subnet_id}"
-}

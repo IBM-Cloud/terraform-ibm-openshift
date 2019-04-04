@@ -83,6 +83,7 @@ In this version, the following infrastructure elements are provisioned for OpenS
 * Master node 
 * Infra node
 * App node
+* Storage node (if enabled for glusterfs configuration)
 * Security groups for these nodes
 
 

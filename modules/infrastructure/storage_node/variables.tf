@@ -1,7 +1,6 @@
 #################################################
 # Common Variables
 #################################################
-
 variable "random_id" {}
 variable "datacenter" {}
 variable "domain" {}
@@ -13,25 +12,25 @@ variable "block_storage_type" {
 variable "hourly_billing" {}
 
 #################################################
-# Infra Node Variables
+# Storage node Variables
 #################################################
-variable "infra_node_count" {}
-variable "infra_hostname" {
-  default = "infra"
+variable "storage_node_count" {}
+variable "storage_hostname" {
+  default = "storage"
 }
-variable "infra_hostname_prefix" {
+variable "storage_hostname_prefix" {
   default = "IBM"
 }
-variable "infra_flavor" {}
-variable "infra_os_ref_code" {
+variable "storage_flavor" {}
+variable "storage_os_ref_code" {
   default = "REDHAT_7_64"
 }
+variable "storage_node_pub_sg" {}
 
-variable "infra_node_pub_sg"{}
-variable "infra_node_prv_sg"{}
+variable "storage_node_prv_sg" {}
 
-variable "infra_ssh_key_ids" {
+variable "storage_ssh_key_ids" {
   type = "list"
 }
-variable "infra_private_ssh_key" {}
 
+variable "storage_private_ssh_key" {}

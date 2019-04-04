@@ -25,7 +25,7 @@ resource "null_resource" "pre_install_cluster" {
       "chmod 400 /root/.ssh/id_rsa",
       "chmod +x /tmp/scripts/*",
       "cat /root/hosts >> /etc/hosts",
-      "/tmp/scripts/pre_install_steps.sh ${join(",",concat(var.app_private_ip,var.infra_private_ip,var.master_private_ip))} ${join(",",concat(var.app_host,var.infra_host,var.master_host))} ${var.domain}"
+      "/tmp/scripts/pre_install_steps.sh ${join(",",concat(var.app_private_ip,var.infra_private_ip,var.master_private_ip,var.storage_private_ip))} ${join(",",concat(var.app_host,var.infra_host,var.master_host,var.storage_host))} ${var.domain}"
     ]
   }
 }
@@ -66,7 +66,7 @@ resource "null_resource" "post_install_cluster" {
 
   provisioner "remote-exec" {
     inline = [
-      "/tmp/scripts/post_install_steps.sh ${join(",",var.master_private_ip)} ${join(",",concat(var.app_private_ip,var.infra_private_ip))}",
+      "/tmp/scripts/post_install_steps.sh ${join(",",var.master_private_ip)} ${join(",",concat(var.app_private_ip,var.infra_private_ip,var.storage_private_ip))}",
     ]
   }
   depends_on    = ["null_resource.deploy_cluster"]

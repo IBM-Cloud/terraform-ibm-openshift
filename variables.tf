@@ -28,7 +28,8 @@ variable "app_count" {
 }
 
 variable "storage_count" {
-  default = 3
+  description = "Set to 0 to configure openshift without glusterfs configuration and 3 or more to configure openshift with glusterfs"
+  default = 0
 }
 
 variable "ssh_public_key" {
@@ -45,12 +46,10 @@ variable "vm_domain" {
 
 
 variable "ibm_sl_username"{
-  
 }
 
 
 variable "ibm_sl_api_key"{
-
 }
 
 variable "rhn_username"{
@@ -98,5 +97,9 @@ variable infra_flavor {
 }
 
 variable app_flavor {
+   default = "B1_4X16X100"
+}
+
+variable storage_flavor {
    default = "B1_4X16X100"
 }
