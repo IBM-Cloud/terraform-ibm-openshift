@@ -72,6 +72,38 @@ resource "ibm_security_group_rule" "openshift-node-ingress_rule8" {
   security_group_id = "${ibm_security_group.openshift-node.id}"
 }
 
+resource "ibm_security_group_rule" "openshift-node-ingress_rule9" {
+  direction         = "ingress"
+  port_range_min    = "2222"
+  port_range_max    = "2222"
+  protocol          = "tcp"
+  security_group_id = "${ibm_security_group.openshift-node.id}"
+}
+
+resource "ibm_security_group_rule" "openshift-node-ingress_rule10" {
+  direction         = "ingress"
+  port_range_min    = "24007"
+  port_range_max    = "24007"
+  protocol          = "tcp"
+  security_group_id = "${ibm_security_group.openshift-node.id}"
+}
+
+resource "ibm_security_group_rule" "openshift-node-ingress_rule11" {
+  direction         = "ingress"
+  port_range_min    = "24008"
+  port_range_max    = "24008"
+  protocol          = "tcp"
+  security_group_id = "${ibm_security_group.openshift-node.id}"
+}
+
+resource "ibm_security_group_rule" "openshift-node-ingress_rule12" {
+  direction         = "ingress"
+  port_range_min    = "49152"
+  port_range_max    = "49251"
+  protocol          = "tcp"
+  security_group_id = "${ibm_security_group.openshift-node.id}"
+}
+
 resource "ibm_security_group_rule" "openshift-node-egress_rule1" {
   direction         = "egress"
   security_group_id = "${ibm_security_group.openshift-node.id}"

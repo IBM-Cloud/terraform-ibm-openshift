@@ -19,7 +19,7 @@ variable "bastion_hostname" {
   default = "bastion"
 } 
 variable "bastion_hostname_prefix" {
-  default = "bastion"
+  default = "IBM"
 }
 variable "bastion_flavor" {}
 variable "bastion_os_ref_code" {

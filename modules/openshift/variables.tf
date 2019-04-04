@@ -10,6 +10,9 @@ variable "infra_private_ip" {
 variable "app_private_ip" {
    type="list"
 }
+variable "storage_private_ip" {
+   type="list"
+}
 
 variable "master_host" {
    type = "list"
@@ -20,6 +23,10 @@ variable "infra_host" {
 }
 
 variable "app_host" {
+   type = "list"
+}
+
+variable "storage_host" {
    type = "list"
 }
 

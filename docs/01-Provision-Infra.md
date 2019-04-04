@@ -44,6 +44,7 @@ Use the variables.tf file to configure the following:
 |public_vlanid|Existing public vlan ID.|-|
 |infra_count|Number of Infra nodes for the cluster.|1|
 |app_count|Number of app nodes for the cluster. |1|
+|storage_count|Number of storage nodes for the cluster. Set to 0 to configure openshift without glusterfs configuration and 3 or more to configure openshift with glusterfs |0|
 |ssh_private_key|Path to SSH private key.|~/.ssh/id_rsa|
 |ssh_label|An identifying label to assign to the SSH key.|ssh_key_openshift|
 |ssh_public_key|Path to SSH public key.|~/.ssh/id_rsa.pub|
@@ -52,6 +53,8 @@ Use the variables.tf file to configure the following:
 |master_flavor|Flavor used to create Master node|B1_4X16X100|
 |infra_flavor|Flavor used to create Infra nodes|B1_4X16X100|
 |app_flavor|Flavor used to create app nodes|B1_4X16X100|
+|storage_flavor|Flavor used to create storage nodes|B1_4X16X100|
+
 
 
 The infrastructure is provisioned using the terraform modules with the following configuration:
@@ -84,7 +87,11 @@ Nodes are VM_instances that serve a specific purpose for OpenShift Container Pla
 
 * The Bastion server provides a secure way to limit SSH access to the environment. 
 * The master and node security groups only allow for SSH connectivity between nodes inside of the Security Group while the Bastion allows SSH access from everywhere. 
-* The Bastion host is the only ingress point for SSH in the cluster from external entities. When connecting to the OpenShift Container Platform infrastructure, the bastion forwards the request to the appropriate server. Connecting through the Bastion server requires specific SSH configuration. 
+* The Bastion host is the only ingress point for SSH in the cluster from external entities. When connecting to the OpenShift Container Platform infrastructure, the bastion forwards the request to the appropriate server. Connecting through the Bastion server requires specific SSH configuration.
+
+**Storage nodes:**
+
+* Used for deploying Container-Native Storage for OpenShift Container Platform. This deployment delivers a hyper-converged solution, where the storage containers that host Red Hat Gluster Storage co-reside with the compute containers and serve out storage from the hosts that have local or direct attached storage to the compute containers. Each storage node is mounted with 3 block storage devices.
 
 **Compute node configurations**
 
@@ -94,6 +101,7 @@ Nodes are VM_instances that serve a specific purpose for OpenShift Container Pla
 | Infra Nodes | B1_4X8X100 | san disks: 100GB <ul><li> disk1 : 50 </li><li> disk2 : 25 </li><li>disk3 : 25 </li><ul> | infra_count | 
 | App Nodes | B1_4X8X100 | san disks: 100GB <ul><li> disk1 : 50 </li><li> disk2 : 25 </li><li>disk3 : 25 </li><ul> | app_count |
 | Bastion Nodes | B1_4X8X100 | <ul><li>disk : 100GB </li><li>disk : 50GB </li><ul> | 1 |
+| Storage Nodes | B1_4X8X100 | <ul><li>disk : 100GB </li><li>disk : 50GB </li><ul> | 1 |
 
 
 ## Security Group configurations

@@ -1,6 +1,10 @@
 #################################################
 # Output Bastion Node
 #################################################
+
+output "domain" {
+  value = "${module.bastion.bastion_domain}"
+}
 output "bastion_public_ip" {
   value = "${module.bastion.bastion_ip_address}"
 }
@@ -41,10 +45,6 @@ output "infra_hostname" {
   value = "${module.infranode.infra_host}"
 }
 
-output "infra_public_ip" {
-  value = "${module.infranode.infra_public_ip}"
-}
-
 
 #################################################
 # Output App Node
@@ -57,10 +57,15 @@ output "app_hostname" {
   value = "${module.appnode.app_host}"
 }
 
-output "app_public_ip" {
-  value = "${module.appnode.app_public_ip}"
+
+#################################################
+# Output Storage Node
+#################################################
+output "storage_private_ip" {
+  value = "${module.storagenode.storage_private_ip}"
 }
 
-
-
+output "storage_hostname" {
+  value = "${module.storagenode.storage_host}"
+}
 

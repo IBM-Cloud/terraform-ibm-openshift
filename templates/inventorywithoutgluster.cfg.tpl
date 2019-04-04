@@ -25,11 +25,6 @@ openshift_disable_check= docker_image_availability,docker_storage,memory_availab
 # Uncomment the line below to enable metrics for the cluster.
 # openshift_hosted_metrics_deploy=true
 
-# https://access.redhat.com/solutions/3617551
-openshift_storage_glusterfs_image="registry.access.redhat.com/rhgs3/rhgs-server-rhel7:v3.10"
-openshift_storage_glusterfs_block_image="registry.access.redhat.com/rhgs3/rhgs-gluster-block-prov-rhel7:v3.10"
-openshift_storage_glusterfs_heketi_image="registry.access.redhat.com/rhgs3/rhgs-volmanager-rhel7:v3.10"
-
 
 [masters]
 ${master_block}
@@ -42,7 +37,6 @@ ${master_block}
 masters
 compute_nodes
 infra_nodes
-glusterfs
 
 [compute_nodes]
 ${compute_block}
@@ -50,12 +44,8 @@ ${compute_block}
 [infra_nodes]
 ${infra_block}
 
-[glusterfs]
-${gluster_block}
-
 [virtual_nodes:children]
 compute_nodes
-glusterfs
 masters
 etcd
 infra_nodes
@@ -68,7 +58,5 @@ masters
 masters
 nodes
 etcd
-glusterfs
 
-[tower-management-host]
-${tower_block}
+

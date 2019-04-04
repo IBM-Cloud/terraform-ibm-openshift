@@ -27,6 +27,11 @@ variable "app_private_ip" {
 
 }
 
+variable "storage_private_ip" {
+   type = "list"
+
+}
+
 variable "master_host" {
    type = "list"
 
@@ -42,6 +47,12 @@ variable "app_host" {
 
 }
 
+variable "storage_host" {
+   type = "list"
+
+}
+
+
 variable "domain" {
 
 }
@@ -55,5 +66,9 @@ variable "infra_node_count" {
 }
 
 variable "app_node_count" {
+
+}
+
+variable "storage_node_count" {
 
 }
