@@ -85,21 +85,21 @@ variable public_vlanid {
 ### Flavors to be changed to actual values in '#...'
 
 variable bastion_flavor {
-  default = "B1_4X16X100"
+  default = "B1_4X16X25"
 }
 
 variable master_flavor {
-   default = "B1_4X16X100"
+   default = "B1_4X16X25"
 }
 
 variable infra_flavor {
-   default = "B1_4X16X100"
+   default = "B1_4X16X25"
 }
 
 variable app_flavor {
-   default = "B1_4X16X100"
+   default = "B1_4X16X25"
 }
 
 variable storage_flavor {
-   default = "B1_4X16X100"
+   default = "B1_4X16X25"
 }
