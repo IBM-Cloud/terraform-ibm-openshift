@@ -218,11 +218,11 @@ Bring down the openshift cluster by running following
   
 * https://github.com/ibm-cloud/terraform-provider-ibm - Terraform Provider for IBM Cloud  
   
-* [Deploying OpenShift Container Platform 3.10](https://docs.openshift.com/container-platform/3.10/install/index.html)
+* [Deploying OpenShift Container Platform 3.11](https://docs.openshift.com/container-platform/3.11/install/index.html)
 
 * [To create more users and provide admin privilege](https://docs.openshift.com/container-platform/3.10/install_config/configuring_authentication.html)
 
-* [Accessing openshift registry](https://docs.openshift.com/container-platform/3.10/install_config/registry/index.html)
+* [Accessing openshift registry](https://docs.openshift.com/container-platform/3.11/install_config/registry/index.html)
 
-* [Refer Openshift Router](https://docs.openshift.com/container-platform/3.10/install_config/router/index.html)
+* [Refer Openshift Router](https://docs.openshift.com/container-platform/3.11/install_config/router/index.html)
 
