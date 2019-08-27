@@ -1,6 +1,6 @@
 # terraform-ibm-openshift
 
-Use this project to set up Red Hat® OpenShift Container Platform 3.10 on IBM Cloud, using Terraform.
+Use this project to set up Red Hat® OpenShift Container Platform 3.11 on IBM Cloud, using Terraform.
 
 ## Overview
 Deployment of 'OpenShift Container Platform on IBM Cloud' is divided into separate steps.
@@ -115,7 +115,9 @@ To install OpenShift on the cluster, just run:
 
 This step includes the following: 
 * Prepare the Master, Infra and App nodes before installing OpenShift
-* Finally, install OpenShift Container Platform v3.10 using installation procedure described [here]( https://docs.openshift.com/container-platform/3.10/install/running_install.html). 
+* Finally, install OpenShift Container Platform v3.
+
+using installation procedure described [here]( https://docs.openshift.com/container-platform/3.10/install/running_install.html). 
 
 
 Once the setup is complete, just run:
