@@ -72,3 +72,13 @@ variable "app_node_count" {
 variable "storage_node_count" {
 
 }
+
+
+variable "rhn_username" {
+
+}
+
+variable "rhn_password" {
+
+}
+

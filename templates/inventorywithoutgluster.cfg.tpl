@@ -9,9 +9,9 @@
 ansible_ssh_user=root
 ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
 
-# Deploy OpenShift Enterprise 3.10
+# Deploy OpenShift Enterprise 3.11
 openshift_deployment_type=openshift-enterprise
-openshift_release= "3.10"
+openshift_release= "3.11"
 openshift_enable_docker_excluder=false
 
 # We need a wildcard DNS setup for our public access to services, fortunately
@@ -25,6 +25,11 @@ openshift_disable_check= docker_image_availability,docker_storage,memory_availab
 # Uncomment the line below to enable metrics for the cluster.
 # openshift_hosted_metrics_deploy=true
 
+openshift_cluster_monitoring_operator_install=false
+openshift_cluster_monitoring_operator_node_selector={"node-role.kubernetes.io/infra":"true"}
+openshift_certificate_expiry_fail_on_warn=False
+oreg_auth_user=${rhn_username}
+oreg_auth_password=${rhn_password}
 
 [masters]
 ${master_block}
