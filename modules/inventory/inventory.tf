@@ -50,6 +50,8 @@ data "template_file" "ose_inventory_new" {
     compute_block   =  "${join("\n", data.template_file.compute_block.*.rendered)}"
     infra_block     =  "${join("\n", data.template_file.infra_block.*.rendered)}"
     gluster_block   =  "${join("\n", data.template_file.gluster_block.*.rendered)}"
+    rhn_username    = "${var.rhn_username}"
+    rhn_password    = "${var.rhn_password}"
   }
 }
 
