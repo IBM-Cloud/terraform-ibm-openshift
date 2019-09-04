@@ -117,7 +117,7 @@ This step includes the following:
 * Prepare the Master, Infra and App nodes before installing OpenShift
 * Finally, install OpenShift Container Platform v3.
 
-using installation procedure described [here]( https://docs.openshift.com/container-platform/3.10/install/running_install.html). 
+using installation procedure described [here]( https://docs.openshift.com/container-platform/3.11/install/running_install.html). 
 
 
 Once the setup is complete, just run:
@@ -220,7 +220,7 @@ Bring down the openshift cluster by running following
   
 * [Deploying OpenShift Container Platform 3.11](https://docs.openshift.com/container-platform/3.11/install/index.html)
 
-* [To create more users and provide admin privilege](https://docs.openshift.com/container-platform/3.10/install_config/configuring_authentication.html)
+* [To create more users and provide admin privilege](https://docs.openshift.com/container-platform/3.11/install_config/configuring_authentication.html)
 
 * [Accessing openshift registry](https://docs.openshift.com/container-platform/3.11/install_config/registry/index.html)
 
