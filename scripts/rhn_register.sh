@@ -28,7 +28,7 @@ subscription-manager repos --disable="*"
 #yum-config-manager --disable \*
 
 
-subscription-manager repos --enable="rhel-7-server-rpms"  --enable="rhel-7-server-extras-rpms"  --enable="rhel-7-server-ose-3.10-rpms" --enable="rhel-7-server-ansible-2.6-rpms" --enable="rhel-7-server-optional-rpms"
+subscription-manager repos --enable="rhel-7-server-rpms"  --enable="rhel-7-server-extras-rpms"  --enable="rhel-7-server-ose-3.11-rpms" --enable="rhel-7-server-ansible-2.6-rpms" --enable="rhel-7-server-optional-rpms"
 
 
 ### The following has been moved to bastion_install_ansible.sh
