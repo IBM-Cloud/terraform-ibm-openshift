@@ -58,9 +58,9 @@ The following figure illustrates the deployment architecture for the 'OpenShift 
 * Clone the repo [IBM Terraform Openshift](https://github.com/IBM-Cloud/terraform-ibm-openshift) 
 
     ``` console
-    # Clone the repo
-    $ git clone https://github.com/IBM-Cloud/terraform-ibm-openshift.git
-    $ cd terraform-ibm-openshift/
+      # Clone the repo
+      $ git clone https://github.com/IBM-Cloud/terraform-ibm-openshift.git
+      $ cd terraform-ibm-openshift/
     ```
 
 * Generate the private and public key pair which is required to provision the   virtual machines in softlayer.(Put the private key inside ~/.ssh/id_rsa).Follow the instruction [here](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/) to generate ssh key pair
@@ -73,8 +73,7 @@ The following figure illustrates the deployment architecture for the 'OpenShift 
 * Provision the infrastructure using the following command
 
    ``` console
-   # Create the infrastructure.
-   $ make infrastructure
+    $ make rhn_username=<rhn_username> rhn_password=<rhn_password> infrastructure
    ```
 Please provide softlayer username , password and ssh public key to proceed.
 
@@ -110,7 +109,7 @@ This step includes the following:
 
 To install OpenShift on the cluster, just run:
    ``` console
-   $ make openshift
+    $ make openshift
    ```
 
 This step includes the following: 
@@ -123,7 +122,7 @@ using installation procedure described [here]( https://docs.openshift.com/contai
 Once the setup is complete, just run:
 
    ``` console
-   $ open https://$(terraform output master_public_ip):8443/console
+    $ open https://$(terraform output master_public_ip):8443/console
    ```
 Note: Add IP and Host Entry in /etc/hosts
  
@@ -133,8 +132,8 @@ This figure illustrates the 'Red Hat Openshift Console'
 
 To open a browser to admin console, use the following credentials to login:
    ``` console
-   Username: admin
-   Password: test123
+    Username: admin
+    Password: test123
    ```
 
 ## Work with OpenShift

@@ -33,22 +33,22 @@ Refer to details here: https://github.com/IBMTerraform/terraform-ibm-openshift/b
 # Phase 2: Deploy OpenShift on IBM Cloud
 
 ## 2.1 Prerequisites for OpenShift Install 
-(ref: https://docs.openshift.com/container-platform/3.11/install_config/install/prerequisites.html)  All these steps must be performed manually.
+(ref: https://docs.openshift.com/container-platform/3.10/install_config/install/prerequisites.html)  All these steps must be performed manually.
 
 2.1.1 Node sizing
-Refer to minimum hardware requirements from here: https://docs.openshift.com/container-platform/3.11/install_config/install/prerequisites.html#hardware
+Refer to minimum hardware requirements from here: https://docs.openshift.com/container-platform/3.10/install_config/install/prerequisites.html#hardware
 
 2.1.2 Docker version
-      OpenShift Container Platform 3.11 requires Docker 1.13.
+      OpenShift Container Platform 3.10 requires Docker 1.13.
 
 2.1.3 Verify that hosts can be resolved by the DNS server:
-Follow the steps described here (https://docs.openshift.com/container-platform/3.11/install_config/install/prerequisites.html#wildcard-dns-prereq)
+Follow the steps described here (https://docs.openshift.com/container-platform/3.10/install_config/install/prerequisites.html#wildcard-dns-prereq)
 
 2.1.4 Verify the DNS wildcard is configured:
-Follow the steps described here (https://docs.openshift.com/container-platform/3.11/install_config/install/prerequisites.html#wildcard-dns-prereq)
+Follow the steps described here (https://docs.openshift.com/container-platform/3.10/install_config/install/prerequisites.html#wildcard-dns-prereq)
 
 ## 2.2. Deploy OpenShift
-The Infra & App nodes are deployed in the Private VLAN, hence do not have access to the Internet.  The OpenShift Container Platform will be deployed using the procedure described [here](https://docs.openshift.com/container-platform/3.11/install/index.html#single-master-multi-node).  
+The Infra & App nodes are deployed in the Private VLAN, hence do not have access to the Internet.  The OpenShift Container Platform will be deployed using the procedure described [here](https://docs.openshift.com/container-platform/3.10/install/index.html#single-master-multi-node).  
 
 
 2.2.1 Steps to find pool ID from Bastion node
@@ -150,6 +150,6 @@ Prepare the Master, Infra & App nodes, before installing OpenShift. Install Open
 
 At the end of the above OpenShift deployment
 
-1. Authentication is configured as htpasswd auth, by default; follow the procedure outlined [here](https://docs.openshift.com/container-platform/3.11/install_config/configuring_authentication.html) to create users and provide Administrator access.  
-1. Docker register is automatically deployed; follow the procedure [here](https://docs.openshift.com/container-platform/3.11/install_config/registry/index.html#install-config-registry-overview) to configure the Registry. 
-1. Router is automatically deployed; follow the procedure [here](https://docs.openshift.com/container-platform/3.11/install_config/router/index.html#install-config-router-overview) to configure the Router.
+1. Authentication is configured as htpasswd auth, by default; follow the procedure outlined [here](https://docs.openshift.com/container-platform/3.10/install_config/configuring_authentication.html) to create users and provide Administrator access.  
+1. Docker register is automatically deployed; follow the procedure [here](https://docs.openshift.com/container-platform/3.10/install_config/registry/index.html#install-config-registry-overview) to configure the Registry. 
+1. Router is automatically deployed; follow the procedure [here](https://docs.openshift.com/container-platform/3.10/install_config/router/index.html#install-config-router-overview) to configure the Router.

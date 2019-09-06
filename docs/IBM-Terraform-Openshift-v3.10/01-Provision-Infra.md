@@ -144,7 +144,7 @@ OpenShift Compute Platform requires a fully functional DNS server, and is proper
 |Software|Version|
 |-------|--------|
 |Red Hat® Enterprise Linux 7.4 x86_64| kernel-3.10.0.x|
-|Atomic-OpenShift <br>{master/clients/node/sdn-ovs/utils} | 3.11.x.x |
+|Atomic-OpenShift <br>{master/clients/node/sdn-ovs/utils} | 3.10.x.x |
 |Docker|1.13.x|
 |Ansible|2.3.2.x|
 
@@ -155,7 +155,7 @@ A subscription to the following channels is required in order to deploy this ref
 |Channel|Repository Name|
 |-------|---------------|
 |Red Hat® Enterprise Linux 7 Server (RPMs)|rhel-7-server-rpms|
-|Red Hat® OpenShift Enterprise 3.11 (RPMs)|rhel-7-server-ose-3.11-rpms|
+|Red Hat® OpenShift Enterprise 3.10 (RPMs)|rhel-7-server-ose-3.10-rpms|
 |Red Hat® Enterprise Linux 7 Server - Extras (RPMs)|rhel-7-server-extras-rpms|
 |Red Hat® Enterprise Linux 7 Server - Fast Datapath (RPMs) |rhel-7-fast-datapath-rpms|
 

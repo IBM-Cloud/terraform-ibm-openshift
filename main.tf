@@ -146,6 +146,8 @@ module "inventory" {
   infra_node_count   = "${var.infra_count}"
   app_node_count     = "${var.app_count}"
   storage_node_count = "${var.storage_count}"
+  rhn_username            = "${var.rhn_username}"
+  rhn_password            = "${var.rhn_password}"
 }
 
 #####################################################
